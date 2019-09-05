@@ -11,10 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Route::get('/', 'PageController@top')->name('top');
+Route::get('/show', 'PageController@show')->name('show');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// OAuth認証
+// facebook
+Route::get('login/facebook', 'Auth\LoginController@redirectToProvider');
+Route::get('login/facebook/callback', 'Auth\LoginController@handleProviderCallback');
