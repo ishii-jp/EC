@@ -31,7 +31,7 @@ Auth::routes();
 | 2) User ログイン後
 |--------------------------------------------------------------------------
 */
-Route::group(['middleware' => 'auth:user'], function() {
+Route::group(['middleware' => 'auth:web'], function() {
     Route::get('/home', 'HomeController@index')->name('home');
 });
 
