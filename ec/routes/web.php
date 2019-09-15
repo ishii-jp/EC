@@ -14,8 +14,12 @@
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', 'PageController@top')->name('top');
+Route::match(['get', 'post'], '/', 'PageController@top')->name('top');
 Route::get('/show', 'PageController@show')->name('show');
+
+// カート機能
+Route::post('/cart/confirm', 'CartController@cartConfirm')->name('cartConfirm');
+Route::post('/cart/add', 'CartController@cartAdd')->name('cartAdd');
 
 Auth::routes();
 
