@@ -1,8 +1,10 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-    <p>{{ $good_name }}を{{ $number }}個カートに追加しました。</p>
-    <p><a href="{{ route('top') }}">トップはこちら</a><p>
+    @foreach ($carts as $cart)
+        <p>{{ $cart->name }}を{{ $cart->qty }}個カートに追加しました。</p>
+    @endforeach
     <p><a href="{{ route('show') }}">引き続きお買い物をする方はこちら</a><p>
+    <p><a href="{{ route('top') }}">トップはこちら</a><p>
 </div>
 @endsection
