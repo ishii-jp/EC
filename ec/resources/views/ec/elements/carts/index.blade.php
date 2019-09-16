@@ -4,7 +4,7 @@
     @foreach (Cart::content() as $cartContent)
         <tr>
             <td>{{ $cartContent->name }}</td>
-            <td>{{ $cartContent->price }}</td>
+            <td>￥{{ $cartContent->price }}</td>
             <td>{{ $cartContent->qty }}</td>
         </tr>
     @endforeach
