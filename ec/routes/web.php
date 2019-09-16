@@ -18,6 +18,9 @@ Route::match(['get', 'post'], '/', 'PageController@top')->name('top');
 Route::get('/show', 'PageController@show')->name('show');
 
 // カート機能
+Route::get('/cart', 'CartController@cartShow')->name('cartShow');
+Route::delete('/cart/delete', 'CartController@cartDelete')->name('cartDelete');
+Route::delete('/cart/reset', 'CartController@cartReset')->name('cartReset');
 Route::post('/cart/confirm', 'CartController@cartConfirm')->name('cartConfirm');
 Route::post('/cart/add', 'CartController@cartAdd')->name('cartAdd');
 

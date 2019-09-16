@@ -8,6 +8,11 @@ use Cart;
 
 class CartController extends Controller
 {
+    public function cartShow()
+    {
+        return view('ec.carts.cartShow');
+    }
+
     public function cartConfirm(Request $request)
     {
         $post['good'] = Good::find($request->good_id);
@@ -28,7 +33,7 @@ class CartController extends Controller
 
             // Gloudemans\Shoppingcart\Shoppingcartを用いた実装
             $good = Good::find($request->good_id);
-            Cart::add([
+            $results = Cart::add([
                 [
                     'id' => $good->id,
                     'name' => $good->name,
@@ -38,11 +43,24 @@ class CartController extends Controller
                     // 'options' => ['photo_path'=> $book->photo_path]
                 ]
             ]);
-            $carts = Cart::content();
+            // $carts = Cart::content();
+            foreach ($results as $result) $carts[] = Cart::get($result->rowId);
         } elseif('back'){
             return redirect(route('top'));
         }
         // return view('ec.carts.cartComplete', $post);
         return view('ec.carts.cartComplete', ['carts' => $carts]);
+    }
+
+    public function cartReset()
+    {
+        Cart::destroy();
+        return redirect(route('cartShow'));
+    }
+
+    public function cartDelete(Request $request)
+    {
+        Cart::remove($request->rowId);
+        return redirect(route('cartShow'));
     }
 }

@@ -1,7 +1,10 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-    商品一覧画面
+    @if (Cart::count() > 0)
+        @include('ec.elements.carts.index')
+    @endif
+    <h3>商品一覧</h3>
     <form action="{{ route('cartConfirm') }}" method="post">
         @csrf
         <table class="table table-striped">
@@ -16,6 +19,6 @@
             @endforeach
         </table>
     </form>
-    <a href="{{ route('top') }}">前へ戻る</a>
+    <a href="{{ route('top') }}"><button class="btn btn-primary btn-sm" type="button">前へ戻る</button></a>
 </div>
 @endsection
