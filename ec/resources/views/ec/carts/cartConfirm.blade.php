@@ -6,7 +6,7 @@
         @csrf
         <select name="number">
             @php
-            for ($i = 0; $i <= 50; $i++){
+            for ($i = 1; $i <= 50; $i++){
                 echo "<option value=$i>$i</option>";
             }
             @endphp

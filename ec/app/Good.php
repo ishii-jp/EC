@@ -9,4 +9,14 @@ class Good extends Model
     protected $fillable = [
         'name', 'kana', 'category_id', 'maker_id', 'price', 'stock'
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function maker()
+    {
+        return $this->belongsTo(Maker::class);
+    }
 }

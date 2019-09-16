@@ -14,7 +14,7 @@
                     <td>{{ $good->name }}</td>
                     <td>￥{{ $good->price }}</td>
                     <td>{{ $good->stock }}</td>
-                    <td><a href=""><button class="btn btn-primary btn-sm" type="button">商品詳細</button></a></td>
+                    <td><a href="{{ route('goodShow', ['good_id' => $good->id]) }}"><button class="btn btn-primary btn-sm" type="button">商品詳細</button></a></td>
                     <td><button class="btn btn-primary btn-sm" type="submit" name="good_id" value="{{ $good->id }}">カートへ入れる</button></td>
                 </tr>
             @endforeach
