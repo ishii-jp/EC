@@ -5,6 +5,7 @@
         @include('ec.elements.carts.index')
     @endif
     <h3>商品一覧</h3>
+    <p><a href="{{ route('categoryIndex') }}">カテゴリーごとにみる</a></p>
     <form action="{{ route('cartConfirm') }}" method="post">
         @csrf
         <table class="table table-striped">

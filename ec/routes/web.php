@@ -27,6 +27,10 @@ Route::post('/cart/add', 'CartController@cartAdd')->name('cartAdd');
 // 商品詳細画面
 Route::get('/good/{good_id}', 'GoodController@goodShow')->name('goodShow');
 
+// 商品カテゴリー機能
+Route::get('/category', 'CategoryController@categoryIndex')->name('categoryIndex');
+Route::get('/category/{category_id}', 'CategoryController@categoryShow')->name('categoryShow');
+
 Auth::routes();
 
 /*
