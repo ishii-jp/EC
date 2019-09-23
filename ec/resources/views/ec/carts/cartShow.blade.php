@@ -19,7 +19,7 @@
     </form>
     <p>カート内合計￥{{ Cart::total() }}</p>
 
-    <p><a href=""><button class="btn btn-primary btn-sm" type="button">お会計へ進む</button></a></p><!-- 決済へのリンクをはる -->
+    <p><a href="{{ route('pay') }}"><button class="btn btn-primary btn-sm" type="button">お会計へ進む</button></a></p>
     <form action="{{ route('cartReset') }}" method="post">
         @csrf
         {{ method_field('delete') }}

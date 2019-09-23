@@ -16,7 +16,7 @@ class CategoryController extends Controller
 
     public function categoryShow(Request $request)
     {
-        $items = Good::with('category')->where('category_id', $request->category_id)->get();
-        return view('ec.categories.categoryShow', ['items' => $items]);
+        $goods = Good::with('category')->where('category_id', $request->category_id)->get();
+        return view('ec.categories.categoryShow', ['goods' => $goods]);
     }
 }
