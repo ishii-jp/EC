@@ -24,6 +24,10 @@ Route::delete('/cart/reset', 'CartController@cartReset')->name('cartReset');
 Route::post('/cart/confirm', 'CartController@cartConfirm')->name('cartConfirm');
 Route::post('/cart/add', 'CartController@cartAdd')->name('cartAdd');
 
+// 決済機能
+Route::get('/pay', 'PaymentController@index')->name('payIndex');
+Route::post('/pay', 'PaymentController@pay')->name('pay');
+
 // 商品詳細画面
 Route::get('/good/{good_id}', 'GoodController@goodShow')->name('goodShow');
 
