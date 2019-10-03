@@ -29,7 +29,12 @@ Route::get('/pay', 'PaymentController@index')->name('payIndex');
 Route::post('/pay', 'PaymentController@pay')->name('pay');
 
 // 商品詳細画面
-Route::get('/good/{good_id}', 'GoodController@goodShow')->name('goodShow');
+Route::group(['prefix' => 'good'], function() {
+    Route::get('index', 'GoodController@goodIndex')->name('goodIndex');
+    Route::get('add', 'GoodController@goodAdd')->name('goodAdd');
+    Route::post('update', 'GoodController@goodUpdate')->name('goodUpdate');
+    Route::get('{good_id}', 'GoodController@goodShow')->name('goodShow');
+});
 
 // 商品カテゴリー機能
 Route::get('/category', 'CategoryController@categoryIndex')->name('categoryIndex');
