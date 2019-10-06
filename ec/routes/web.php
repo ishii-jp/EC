@@ -32,6 +32,7 @@ Route::post('/pay', 'PaymentController@pay')->name('pay');
 Route::group(['prefix' => 'good'], function() {
     Route::get('index', 'GoodController@goodIndex')->name('goodIndex');
     Route::get('add', 'GoodController@goodAdd')->name('goodAdd');
+    Route::post('create', 'GoodController@goodCreate')->name('goodCreate');
     Route::post('update', 'GoodController@goodUpdate')->name('goodUpdate');
     Route::get('{good_id}', 'GoodController@goodShow')->name('goodShow');
 });

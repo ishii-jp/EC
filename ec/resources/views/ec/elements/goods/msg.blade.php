@@ -1,0 +1,1 @@
+@if (session('msg')) <h4>{{ session('msg') }}</h4> @endif

@@ -1,0 +1,1 @@
+@if (session('exception')) <h4>{{ session('exception') }}</h4> @endif

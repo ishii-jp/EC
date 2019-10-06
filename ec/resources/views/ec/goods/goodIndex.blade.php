@@ -6,7 +6,8 @@
     <p><a href="">新規メーカー登録はこちら</a></p>
     <h4>現在の取り扱い商品一覧</h4>
     @if (isset($goods))
-    @if (session('msg')) <h4>{{ session('msg') }}</h4> @endif
+    @include('ec.elements.goods.msg')
+    @include('ec.elements.exception')
     <form action="{{ route('goodUpdate') }}" method="POST">
         @csrf
         <table class="table table-striped">
