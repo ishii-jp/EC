@@ -7,6 +7,7 @@ use App\Good;
 use App\Category;
 use App\Maker;
 use App\Libs\GoodsLibrary;
+use App\Http\Requests\GoodsRequest;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
@@ -37,7 +38,7 @@ class GoodController extends Controller
         return view('ec.goods.goodAdd', $ret);
     }
 
-    public function goodCreate(Request $request)
+    public function goodCreate(GoodsRequest $request)
     {
         DB::beginTransaction();
         try {

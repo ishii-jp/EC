@@ -4,6 +4,11 @@
     @include('ec.elements.goods.msg')
     @include('ec.elements.exception')
     <h4>新規商品登録</h4>
+    @if ($errors->all())
+        @foreach ($errors->all() as $message)
+            <p style="color:red">{{ $message }}</p>
+        @endforeach
+    @endif
         <form action="{{ route('goodCreate') }}" method="POST">
         @csrf
             <table class="table table-striped">
