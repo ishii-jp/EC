@@ -11,4 +11,4 @@
 </table>
 <p>カート内合計￥{{ Cart::total() }}</p>
 
-<p><a href="{{ route('pay') }}"><button class="btn btn-primary btn-sm" type="button">お会計へ進む</button></a></p>
+<p><a href="{{ route('payIndex') }}"><button class="btn btn-primary btn-sm" type="button">お会計へ進む</button></a></p>
