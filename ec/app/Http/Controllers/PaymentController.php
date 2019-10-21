@@ -23,13 +23,13 @@ class PaymentController extends Controller
         try {
             Stripe::setApiKey(env('STRIPE_SECRET'));
 
-            $customer = Customer::create(array(
-                'email' => $request->stripeEmail,
-                'source' => $request->stripeToken
-            ));
+            // $customer = Customer::create(array(
+            //     'email' => $request->stripeEmail,
+            //     'source' => $request->stripeToken
+            // ));
 
             $charge = Charge::create(array(
-                'customer' => $customer->id,
+                // 'customer' => $customer->id,
                 'amount' => Cart::total(),
                 'currency' => 'jpy'
             ));
@@ -39,4 +39,16 @@ class PaymentController extends Controller
             return 'エラーメッセージ：'. $ex->getMessage();
         }
     }
+
+    // public function pay(Request $request){
+    //     Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+    //     $token = $request->stripeToken;
+    //     $charge = Charge::create([
+    //         'amount' => 100,//課金額を指定
+    //         'currency' => 'jpy',//通貨を指定
+    //         'source' => $token,//公開鍵を指定
+    //         'description' => 'Example charge'//課金内容についての説明
+    //     ]);
+    //     return back();
+    // }
 }
