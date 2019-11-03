@@ -14,8 +14,16 @@
     <p>合計￥{{ $cartTotal }}です。<br>本当に購入しますか？</p>
 
     <form action="{{ route('pay') }}" method="POST">
+        <button class="btn btn-primary btn-sm" type="submit">購入する</button>
+        {{-- <script>
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            })
+        </script> --}}
         @csrf
-        <script
+        {{-- <script
             src="https://checkout.stripe.com/checkout.js" class="stripe-button"
             data-key="{{ env('STRIPE_KEY') }}"
             data-amount={{ $cartTotal }}
@@ -25,7 +33,7 @@
             data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
             data-locale="auto"
             data-currency="JPY">
-        </script>
+        </script> --}}
     </form>
     <p><a href="{{ route('show') }}"><button class="btn btn-primary btn-sm" type="button">戻る</button></a></p>
 </div>
