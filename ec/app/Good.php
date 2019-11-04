@@ -19,4 +19,15 @@ class Good extends Model
     {
         return $this->belongsTo(Maker::class);
     }
+
+    public static function getGood($id)
+    {
+        return self::find($id);
+    }
+
+    public static function paymentGood(Good $good, $stock)
+    {
+        $good->stock = $stock;
+        $good->save();
+    }
 }

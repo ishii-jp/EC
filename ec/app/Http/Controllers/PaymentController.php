@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Stripe\Stripe;
-use Stripe\Charge;
-use Stripe\Customer;
+// use Stripe\Stripe;
+// use Stripe\Charge;
+// use Stripe\Customer;
 use Cart;
+use App\Good;
+use Illuminate\Support\Facades\DB;
+use Exception;
 
 class PaymentController extends Controller
 {
@@ -19,11 +22,38 @@ class PaymentController extends Controller
 
     public function pay(Request $request)
     {
-        // 在庫があるかどうか確認。
-        // 在庫があったら、購入した物をカートから削除。
-        // 決算
-        // 購入完了メール送信
+        $cartContents = $request->cartContents;
+        foreach ($cartContents as $key){
+            // 商品確認、購入数から在庫を引き算して、マイナスにならないことを判定、マイナスなら強制的に0を代入し送信するメールの種類を変更する。
+            $contentId = $key['id'];
+            $contentQty = $key['qty'];
+            DB::beginTransaction();
+            try {
+                $content = Good::getGood($contentId);
+                // dd($content);
+                // 在庫があったら、購入した物をカートから削除し商品テーブルの在庫から購入した数を引く。
+                $newStock = $content->stock - $contentQty;
+                if ($newStock < 0) $newStock = 0;
+                Good::paymentGood($content, $newStock);
+                DB::commit();
+                Cart::remove($key['rowId']);
+                // 購入完了メール送信
+                if ($newStock == 0){
+                    // 在庫ぎれになったバージョンのメールを送信する。
+                } else {
+                    // 普通の購入完了メールを送信する
+                }
+            }catch (Exception $e){
+                DB::rollback();
+                $exception = 'エラーメッセージ：'. $e->getMessage();
+            }
+        }
         // 購入完了画面へ遷移
+        if (isset($exception)){
+            return back()->with($exception);
+        }
+        return redirect('');
+
 
         // stripeのエラーが謎すぎて打つ手がないので、自作の決済を実装します。
         /*単発決済用のコード*/
