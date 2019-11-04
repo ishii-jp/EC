@@ -29,7 +29,7 @@ class PaymentController extends Controller
                 $content = Good::getGood($key['id']);
                 $newStock = $content->stock - $key['qty'];
                 if ($newStock < 0) $newStock = 0;
-                Good::paymentGood($conten, $newStock);
+                Good::paymentGood($content, $newStock);
                 DB::commit();
                 // カートの中身を削除
                 Cart::remove($key['rowId']);
