@@ -20,22 +20,18 @@ class PaymentController extends Controller
         return view('ec.payments.payIndex', $ret);
     }
 
+    // 商品確認、購入数から在庫を引き算して、マイナスにならないことを判定、マイナスなら強制的に0を代入し送信するメールの種類を変更する。
     public function pay(Request $request)
     {
-        $cartContents = $request->cartContents;
-        foreach ($cartContents as $key){
-            // 商品確認、購入数から在庫を引き算して、マイナスにならないことを判定、マイナスなら強制的に0を代入し送信するメールの種類を変更する。
-            $contentId = $key['id'];
-            $contentQty = $key['qty'];
+        foreach ($request->cartContents as $key){
             DB::beginTransaction();
             try {
-                $content = Good::getGood($contentId);
-                // dd($content);
-                // 在庫があったら、購入した物をカートから削除し商品テーブルの在庫から購入した数を引く。
-                $newStock = $content->stock - $contentQty;
+                $content = Good::getGood($key['id']);
+                $newStock = $content->stock - $key['qty'];
                 if ($newStock < 0) $newStock = 0;
-                Good::paymentGood($content, $newStock);
+                Good::paymentGood($conten, $newStock);
                 DB::commit();
+                // カートの中身を削除
                 Cart::remove($key['rowId']);
                 // 購入完了メール送信
                 if ($newStock == 0){
@@ -43,16 +39,17 @@ class PaymentController extends Controller
                 } else {
                     // 普通の購入完了メールを送信する
                 }
-            }catch (Exception $e){
+            } catch (Exception $e){
                 DB::rollback();
                 $exception = 'エラーメッセージ：'. $e->getMessage();
             }
         }
-        // 購入完了画面へ遷移
+
         if (isset($exception)){
-            return back()->with($exception);
+            return back()->with('exception', $exception);
         }
-        return redirect('');
+        // 購入完了画面へ遷移
+        return view('ec.payments.payComplete');
 
 
         // stripeのエラーが謎すぎて打つ手がないので、自作の決済を実装します。

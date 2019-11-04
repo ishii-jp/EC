@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
+    @if(session('exception'))<p style="color:red">{{ session('exception') }}</p>@endif
     <form action="{{ route('pay') }}" method="POST">
     @csrf
         <table class="table table-striped">
