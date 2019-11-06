@@ -10,6 +10,9 @@ use Cart;
 use App\Good;
 use Illuminate\Support\Facades\DB;
 use Exception;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PaymentComplete;
+use App\Mail\PaymentCompleteNotStock;
 
 class PaymentController extends Controller
 {
@@ -29,6 +32,7 @@ class PaymentController extends Controller
                 $content = Good::getGood($key['id']);
                 $newStock = $content->stock - $key['qty'];
                 if ($newStock < 0) $newStock = 0;
+                // 実際には、この辺りで決済処理をする。
                 Good::paymentGood($content, $newStock);
                 DB::commit();
                 // カートの中身を削除
@@ -36,8 +40,10 @@ class PaymentController extends Controller
                 // 購入完了メール送信
                 if ($newStock == 0){
                     // 在庫ぎれになったバージョンのメールを送信する。
+                    // Mail::to('sadaharu5goo@icloud.com')->send(new PaymentCompleteNotStock());
                 } else {
                     // 普通の購入完了メールを送信する
+                    // Mail::to('sadaharu5goo@icloud.com')->send(new PaymentComplete());
                 }
             } catch (Exception $e){
                 DB::rollback();
