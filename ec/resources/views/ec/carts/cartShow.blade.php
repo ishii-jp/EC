@@ -12,7 +12,7 @@
                     <td>{{ $cartContent->name }}</td>
                     <td>￥{{ $cartContent->price }}</td>
                     <td>{{ $cartContent->qty }}</td>
-                    <td><button class="btn btn-primary btn-sm" type="submit" name ="rowId" value="{{ $cartContent->rowId }}">削除</button></td>
+                    <td><button class="btn btn-primary btn-sm" type="submit" name ="rowId" value="{{ $cartContent->rowId }}" onClick="return confirm('カートから削除します。\nよろしいですか？')">削除</button></td>
                 </tr>
             @endforeach
         </table>
