@@ -13,6 +13,7 @@ use Exception;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PaymentComplete;
 use App\Mail\PaymentCompleteNotStock;
+use App\Http\Requests\UserInfoRequest;
 
 class PaymentController extends Controller
 {
@@ -21,6 +22,30 @@ class PaymentController extends Controller
         $ret['cartContents'] = Cart::content();
         $ret['cartTotal'] = Cart::total();
         return view('ec.payments.payIndex', $ret);
+    }
+
+    // 非会員の決算時にユーザー情報をフォームから取得
+    public function registUserInfo(Request $request)
+    {
+        // フォーム送り先
+        $ret['formAction'] = 'payPostRegistUserInfo';
+
+        // カート内の情報はセッションに保存する
+        $request->session()->put('cartContents', $request->cartContents);
+
+        return view('ec.payments.payUserInfo', $ret);
+    }
+
+    public function postRegistUserInfo(userInfoRequest $request)
+    {
+        // セッションからカート内の情報を取得
+        $cartContents = $request->session()->get('cartContents');
+        // dd($cartContents);
+        dd($request->all());
+
+        // 入力フォームからユーザー情報を取得
+
+        // 確認画面後payメソッドへカート内データとユーザー情報を送る
     }
 
     // 商品確認、購入数から在庫を引き算して、マイナスにならないことを判定、マイナスなら強制的に0を代入し送信するメールの種類を変更する。

@@ -25,8 +25,12 @@ Route::post('/cart/confirm', 'CartController@cartConfirm')->name('cartConfirm');
 Route::post('/cart/add', 'CartController@cartAdd')->name('cartAdd');
 
 // 決済機能
-Route::get('/pay', 'PaymentController@index')->name('payIndex');
-Route::post('/pay', 'PaymentController@pay')->name('pay');
+Route::group(['prefix' => 'pay'], function() {
+    Route::get('/', 'PaymentController@index')->name('payIndex');
+    Route::post('/', 'PaymentController@pay')->name('pay');
+    Route::match(['get', 'post'], 'userInfo', 'PaymentController@registUserInfo')->name('payRegistUserInfo');
+    Route::post('userInfo/confirm', 'PaymentController@postRegistUserInfo')->name('payPostRegistUserInfo');
+});
 
 // 商品詳細画面
 Route::group(['prefix' => 'good'], function() {
