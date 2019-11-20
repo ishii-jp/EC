@@ -41,11 +41,24 @@ class PaymentController extends Controller
         // セッションからカート内の情報を取得
         $cartContents = $request->session()->get('cartContents');
         // dd($cartContents);
-        dd($request->all());
 
-        // 入力フォームからユーザー情報を取得
+        // フォームの値を取得
+        $formValue = $request->except('_token');
 
-        // 確認画面後payメソッドへカート内データとユーザー情報を送る
+        if (isset($request->confirm)){
+            // 確認画面のビューを返す。
+            $view = 'ec.payment.userInfoConfirm';
+        } else {
+            // ユーザー情報を登録
+
+            // 決済処理を行うため、pay()を呼び出す
+
+            // 購入完了メール
+            
+            // thanks.blade.phpへ
+        }
+
+        return view($view);
     }
 
     // 商品確認、購入数から在庫を引き算して、マイナスにならないことを判定、マイナスなら強制的に0を代入し送信するメールの種類を変更する。
