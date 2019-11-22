@@ -40,31 +40,33 @@ class PaymentController extends Controller
     {
         // セッションからカート内の情報を取得
         $cartContents = $request->session()->get('cartContents');
-        // dd($cartContents);
 
         // フォームの値を取得
-        $formValue = $request->except('_token');
+        $ret['formValue'] = $request->except('_token');
+
+        // フォーム送り先
+        $ret['formAction'] = 'payPostRegistUserInfo';
+
+        // 「修正する」ボタンが押された時の、リダイレクト処理
+        if (isset($request->back)) return redirect()->route('payRegistUserInfo')->with($ret['formValue']);
 
         if (isset($request->confirm)){
             // 確認画面のビューを返す。
-            $view = 'ec.payment.userInfoConfirm';
+            $view = 'ec.payments.userInfoConfirm';
         } else {
             // ユーザー情報を登録
 
             // 決済処理を行うため、pay()を呼び出す
-
-            // 購入完了メール
-            
-            // thanks.blade.phpへ
+            $view = $this->pay($cartContents);
         }
 
-        return view($view);
+        return view($view, $ret);
     }
 
     // 商品確認、購入数から在庫を引き算して、マイナスにならないことを判定、マイナスなら強制的に0を代入し送信するメールの種類を変更する。
-    public function pay(Request $request)
+    public function pay(array $cartContents)
     {
-        foreach ($request->cartContents as $key){
+        foreach ($cartContents as $key){
             DB::beginTransaction();
             try {
                 $content = Good::getGood($key['id']);
@@ -75,7 +77,7 @@ class PaymentController extends Controller
                 DB::commit();
                 // カートの中身を削除
                 Cart::remove($key['rowId']);
-                // 購入完了メール送信
+                // 購入完了メール送信(Dockerの環境だとメールのドライバがなくエラーとなるため、コメントアウトしてます)
                 if ($newStock == 0){
                     // 在庫ぎれになったバージョンのメールを送信する。
                     // Mail::to('sadaharu5goo@icloud.com')->send(new PaymentCompleteNotStock());
@@ -89,11 +91,11 @@ class PaymentController extends Controller
             }
         }
 
-        if (isset($exception)){
-            return back()->with('exception', $exception);
-        }
-        // 購入完了画面へ遷移
-        return view('ec.payments.payComplete');
+        if (isset($exception)) return back()->with('exception', $exception);
+
+        // 購入完了画面へ
+        $view = 'ec.payments.payComplete';
+        return $view;
 
 
         // stripeのエラーが謎すぎて打つ手がないので、自作の決済を実装します。
