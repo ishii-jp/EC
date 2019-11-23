@@ -31,7 +31,8 @@ class PaymentController extends Controller
         $ret['formAction'] = 'payPostRegistUserInfo';
 
         // カート内の情報はセッションに保存する
-        $request->session()->put('cartContents', $request->cartContents);
+        // リダイレクト時対策で、空に上書きを防ぐための条件です
+        if($request->has('cartContents')) $request->session()->put('cartContents', $request->cartContents);
 
         return view('ec.payments.payUserInfo', $ret);
     }
@@ -52,7 +53,7 @@ class PaymentController extends Controller
 
         if (isset($request->confirm)){
             // 確認画面のビューを返す。
-            $view = 'ec.payments.userInfoConfirm';
+            $view = 'ec.payments.payUserInfo';
         } else {
             // ユーザー情報を登録
 
