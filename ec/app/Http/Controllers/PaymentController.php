@@ -48,7 +48,7 @@ class PaymentController extends Controller
         $ret['formAction'] = 'payPostRegistUserInfo';
 
         // 「修正する」ボタンが押された時の、リダイレクト処理
-        if (isset($request->back)) return redirect()->route('payRegistUserInfo')->with($ret['formValue']);
+        if (isset($request->back)) return redirect()->route('payRegistUserInfo')->withInput();
 
         if (isset($request->confirm)){
             // 確認画面のビューを返す。
