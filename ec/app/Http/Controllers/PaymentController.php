@@ -48,11 +48,17 @@ class PaymentController extends Controller
         // フォーム送り先
         $ret['formAction'] = 'payPostRegistUserInfo';
 
-        // 「修正する」ボタンが押された時の、リダイレクト処理
-        if (isset($request->back)) return redirect()->route('payRegistUserInfo')->withInput();
+        // ここで商品情報をカート情報から取得します
+        foreach ($cartContents as $key){
+            $goods[$key['id']] = Good::getGood($key['id']);
+        }
+        $ret['goods'] = $goods;
 
-        if (isset($request->confirm)){
-            // 確認画面のビューを返す。
+        // 「修正する」ボタンが押された時の、リダイレクト処理
+        if ($request->filled('back')) return redirect()->route('payRegistUserInfo')->withInput();
+
+        if ($request->filled('confirm')){
+            // 確認画面のビューを返す
             $view = 'ec.payments.payUserInfo';
         } else {
             // ユーザー情報を登録
@@ -60,6 +66,8 @@ class PaymentController extends Controller
             // 決済処理を行うため、pay()を呼び出す
             $view = $this->pay($cartContents);
         }
+        // ビューで使うため$retへ代入
+        $ret['cartContents'] = $cartContents;
 
         return view($view, $ret);
     }
