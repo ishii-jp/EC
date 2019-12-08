@@ -64,7 +64,7 @@ class PaymentController extends Controller
             // ユーザー情報を登録
 
             // 決済処理を行うため、pay()を呼び出す
-            $view = $this->pay($cartContents);
+            $view = $this->pay($cartContents, $ret['goods']);
         }
         // ビューで使うため$retへ代入
         $ret['cartContents'] = $cartContents;
@@ -73,12 +73,12 @@ class PaymentController extends Controller
     }
 
     // 商品確認、購入数から在庫を引き算して、マイナスにならないことを判定、マイナスなら強制的に0を代入し送信するメールの種類を変更する。
-    public function pay(array $cartContents)
+    public function pay(array $cartContents, array $goods)
     {
         foreach ($cartContents as $key){
             DB::beginTransaction();
             try {
-                $content = Good::getGood($key['id']);
+                $content = $goods[$key['id']];
                 $newStock = $content->stock - $key['qty'];
                 if ($newStock < 0) $newStock = 0;
                 // 実際には、この辺りで決済処理をする。
