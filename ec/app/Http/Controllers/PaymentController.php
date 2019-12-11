@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\PaymentComplete;
 use App\Mail\PaymentCompleteNotStock;
 use App\Http\Requests\UserInfoRequest;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
@@ -33,6 +34,26 @@ class PaymentController extends Controller
         // カート内の情報はセッションに保存する
         // リダイレクト時対策で、空に上書きを防ぐための条件です
         if($request->has('cartContents')) $request->session()->put('cartContents', $request->cartContents);
+
+         // ログインしてるかどうかで条件分岐
+         if (Auth::check()){
+            // ログインしていれば$ret['formValue']にDBから情報を格納する
+            $ret['loginFlg'] = true;
+            $ret['formAction'] = 'payPostRegistUserInfo';
+            $ret['formValue']['userInfo']['name'] = '石井';
+            $ret['formValue']['userInfo']['zip'] = '000-000';
+            $ret['formValue']['userInfo']['address'] = '東京都中央区';
+            $ret['formValue']['userInfo']['tel'] = '0120-000-000';
+            $ret['formValue']['userInfo']['mail'] = 'tora@tora.ne.jp';
+            $ret['formValue']['userInfo']['mail_confirmation'] = 'tora@tora.ne.jp';
+
+            // 商品情報を$goodsへ格納する
+            $ret['cartContents'] = Cart::content();
+            foreach ($ret['cartContents'] as $content){
+                $goods[$content->id] = Good::getGood($content->id);
+            }
+            $ret['goods'] = $goods;
+       }
 
         return view('ec.payments.payUserInfo', $ret);
     }

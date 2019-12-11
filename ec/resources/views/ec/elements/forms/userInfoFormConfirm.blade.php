@@ -28,10 +28,10 @@
         </tr>
     </table>
 
-    @if (Request::is('pay/userInfo/confirm'))
+    @if (Request::is('pay/userInfo/confirm') || isset($loginFlg))
         <p>購入商品情報</p>
         <table class="table table-striped">
-            @foreach ($cartContents as $cartContent)
+            @foreach ($cartContents->toArray() as $cartContent)
                 <tr>
                     <th>商品名</th>
                     <td>{{ $goods[$cartContent['id']]->name }}</td>
@@ -60,12 +60,16 @@
         <input type="hidden" name="goods[name]" value="{{ $goods[$cartContent['id']]->name }}">
         <input type="hidden" name="goods[maker]" value="{{ $goods[$cartContent['id']]->maker->maker_name }}">
         <input type="hidden" name="goods[stock]" value="{{ $cartContent['qty'] }}">
-        <p>上記お間違いなければ、下記購入ボタンを押してください。</p>
         @php $buttonValue = '購入'; @endphp
     @else
         @php $buttonValue = '登録'; @endphp
     @endif
+    <p>上記お間違いなければ、下記{{ $buttonValue }}ボタンを押してください。</p>
+    @isset($loginFlg)
+    <a href="/"><button class="btn btn-primary btn-sm" value="戻る">戻る</button></a>
+    @else
+        <button class="btn btn-primary btn-sm" name="back" value="修正する" type="submit">修正する</button>
+    @endisset
 
-    <button class="btn btn-primary btn-sm" name="back" value="修正する" type="submit">修正する</button>
     <button class="btn btn-primary btn-sm" name="complete" value="{{ $buttonValue }}" type="submit">{{ $buttonValue }}</button>
 </form>
