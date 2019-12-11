@@ -4,27 +4,27 @@
     <table class="table table-striped">
         <tr>
             <th>氏名</th>
-            <td><input type="text" name="userInfo[name]" value="{{ $formValue['userInfo']['name'] }}" readonly></td>
+            <td>{{ $formValue['userInfo']['name'] }}</td>
         </tr>
         <tr>
             <th>郵便番号</th>
-            <td><input type="text" name="userInfo[zip]" value="{{ $formValue['userInfo']['zip'] }}" readonly></td>
+            <td>{{ $formValue['userInfo']['zip'] }}</td>
         </tr>
         <tr>
             <th>住所</th>
-            <td><input type="text" name="userInfo[address]" value="{{ $formValue['userInfo']['address'] }}" readonly></td>
+            <td>{{ $formValue['userInfo']['address'] }}</td>
         </tr>
         <tr>
             <th>電話番号</th>
-            <td><input type="text" name="userInfo[tel]" value="{{ $formValue['userInfo']['tel'] }}" readonly></td>
+            <td>{{ $formValue['userInfo']['tel'] }}</td>
         </tr>
         <tr>
             <th>メールアドレス</th>
-            <td><input type="text" name="userInfo[mail]" value="{{ $formValue['userInfo']['mail'] }}" readonly></td>
+            <td>{{ $formValue['userInfo']['mail'] }}</td>
         </tr>
         <tr>
             <th>メールアドレス(確認用)</th>
-            <td><input type="text" name="userInfo[mail_confirmation]" value="{{ $formValue['userInfo']['mail_confirmation'] }}" readonly></td>
+            <td>{{ $formValue['userInfo']['mail_confirmation'] }}</td>
         </tr>
     </table>
 
@@ -50,9 +50,16 @@
                 <td>¥{{ Cart::total() }}(税込)</td>
             </tr>
         </table>
-        <input type="hidden" name="goods[name]" value="{{ $goods[$cartContent['id']]->name }}" readonly>
-        <input type="hidden" name="goods[maker]" value="{{ $goods[$cartContent['id']]->maker->maker_name }}" readonly>
-        <input type="hidden" name="goods[stock]" value="{{ $cartContent['qty'] }}" readonly>
+        <input type="hidden" name="userInfo[name]" value="{{ $formValue['userInfo']['name'] }}">
+        <input type="hidden" name="userInfo[zip]" value="{{ $formValue['userInfo']['zip'] }}">
+        <input type="hidden" name="userInfo[address]" value="{{ $formValue['userInfo']['address'] }}">
+        <input type="hidden" name="userInfo[tel]" value="{{ $formValue['userInfo']['tel'] }}">
+        <input type="hidden" name="userInfo[mail]" value="{{ $formValue['userInfo']['mail'] }}">
+        <input type="hidden" name="userInfo[mail_confirmation]" value="{{ $formValue['userInfo']['mail_confirmation'] }}">
+
+        <input type="hidden" name="goods[name]" value="{{ $goods[$cartContent['id']]->name }}">
+        <input type="hidden" name="goods[maker]" value="{{ $goods[$cartContent['id']]->maker->maker_name }}">
+        <input type="hidden" name="goods[stock]" value="{{ $cartContent['qty'] }}">
         <p>上記お間違いなければ、下記購入ボタンを押してください。</p>
         @php $buttonValue = '購入'; @endphp
     @else
