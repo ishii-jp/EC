@@ -63,6 +63,11 @@ Auth::routes();
 */
 Route::group(['middleware' => 'auth:web'], function() {
     Route::get('/home', 'HomeController@index')->name('home');
+    // マイページ
+    Route::group(['prefix' => 'mypage'], function() {
+        Route::get('/', 'MyPageController@index')->name('myPage');
+        Route::match(['get', 'post'], 'add', 'MyPageController@add')->name('myPageAdd');
+    });
 });
 
 /*
