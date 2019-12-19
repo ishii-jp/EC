@@ -17,11 +17,10 @@ class MyPageController extends Controller
     public function index()
     {
         $ret['userInfo'] = $this->userInfo->getUserInfo(Auth::user()->id);
-            // dd($ret);
         return view('ec.mypages.index', $ret);
     }
 
-    public function add(Request $request)
+    public function edit(Request $request)
     {
         if ($request->isMethod('post')){
             $formValue = $request->except('_token');

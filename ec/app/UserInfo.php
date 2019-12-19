@@ -26,8 +26,8 @@ class UserInfo extends Model
         }
     }
 
-    public function getUserInfo($user_id)
+    public function getUserInfo($userId)
     {
-        return self::where('user_id', $user_id)->first();
+        return self::firstOrNew(['user_id' => $userId]);
     }
 }

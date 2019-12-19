@@ -66,7 +66,7 @@ Route::group(['middleware' => 'auth:web'], function() {
     // マイページ
     Route::group(['prefix' => 'mypage'], function() {
         Route::get('/', 'MyPageController@index')->name('myPage');
-        Route::match(['get', 'post'], 'add', 'MyPageController@add')->name('myPageAdd');
+        Route::match(['get', 'post'], 'edit', 'MyPageController@edit')->name('myPageAdd');
     });
 });
 

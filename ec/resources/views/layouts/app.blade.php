@@ -68,6 +68,16 @@
                                 </div>
                             </li>
                         @endguest
+                        <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    サイトメニュー <span class="caret"></span>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('show') }}">商品一覧</a>
+                                    <a class="dropdown-item" href="{{ route('cartShow') }}">カート</a>
+                                </div>
+                            </li>
                     </ul>
                 </div>
             </div>
