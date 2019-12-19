@@ -15,9 +15,16 @@ use App\Mail\PaymentComplete;
 use App\Mail\PaymentCompleteNotStock;
 use App\Http\Requests\UserInfoRequest;
 use Illuminate\Support\Facades\Auth;
+use App\User;
 
 class PaymentController extends Controller
 {
+    public $user;
+    public function __construct(User $user)
+    {
+        $this->user = $user;
+    }
+
     public function index()
     {
         $ret['cartContents'] = Cart::content();
@@ -38,14 +45,15 @@ class PaymentController extends Controller
          // ログインしてるかどうかで条件分岐
          if (Auth::check()){
             // ログインしていれば$ret['formValue']にDBから情報を格納する
+            $getUser = $this->user->getUser(Auth::user()->id);
             $ret['loginFlg'] = true;
             $ret['formAction'] = 'payPostRegistUserInfo';
-            $ret['formValue']['userInfo']['name'] = '石井';
-            $ret['formValue']['userInfo']['zip'] = '000-000';
-            $ret['formValue']['userInfo']['address'] = '東京都中央区';
-            $ret['formValue']['userInfo']['tel'] = '0120-000-000';
-            $ret['formValue']['userInfo']['mail'] = 'tora@tora.ne.jp';
-            $ret['formValue']['userInfo']['mail_confirmation'] = 'tora@tora.ne.jp';
+            $ret['formValue']['userInfo']['name'] = $getUser->userInfo->name;
+            $ret['formValue']['userInfo']['zip'] = $getUser->userInfo->zip;
+            $ret['formValue']['userInfo']['address'] = $getUser->userInfo->address;
+            $ret['formValue']['userInfo']['tel'] = $getUser->userInfo->tel;
+            $ret['formValue']['userInfo']['mail'] = $getUser->email;
+            $ret['formValue']['userInfo']['mail_confirmation'] = $getUser->email;
 
             // 商品情報を$goodsへ格納する
             $ret['cartContents'] = Cart::content();
