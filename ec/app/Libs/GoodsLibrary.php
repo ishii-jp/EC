@@ -5,7 +5,11 @@ use App\Good;
 
 class GoodsLibrary
 {
-    // 商品を新規登録するためのメソッドです。
+    /**
+     * 商品を新規登録します。
+     *
+     * @param array $good
+     */
     static function goodCreate($good)
     {
         Good::create([
@@ -19,7 +23,12 @@ class GoodsLibrary
         ]);
     }
 
-    // 商品情報を更新するためのメソッドです。
+
+    /**
+     * 商品情報を更新します。
+     *
+     * @param array $good
+     */
     static function goodsUpdate($goods)
     {
         foreach ($goods as $column => $ids){

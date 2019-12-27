@@ -66,7 +66,7 @@
     @endif
     <p>上記お間違いなければ、下記{{ $buttonValue }}ボタンを押してください。</p>
     @isset($loginFlg)
-    <a href="/"><button class="btn btn-primary btn-sm" value="戻る">戻る</button></a>
+    <button class="btn btn-primary btn-sm" name="back" type="submit" value="戻る">戻る</button>
     @else
         <button class="btn btn-primary btn-sm" name="back" value="修正する" type="submit">修正する</button>
     @endisset

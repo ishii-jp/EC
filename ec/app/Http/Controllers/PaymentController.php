@@ -86,8 +86,13 @@ class PaymentController extends Controller
         }
         $ret['goods'] = $goods;
 
-        // 「修正する」ボタンが押された時の、リダイレクト処理
-        if ($request->filled('back')) return redirect()->route('payRegistUserInfo')->withInput();
+        if (Auth::check()){
+            // 「戻る」ボタンが押された時の、リダイレクト処理
+            if ($request->filled('back')) return redirect()->route('pay');
+        } else {
+            // 「修正する」ボタンが押された時の、リダイレクト処理
+            if ($request->filled('back')) return redirect()->route('payRegistUserInfo')->withInput();
+        }
 
         if ($request->filled('confirm')){
             // 確認画面のビューを返す
