@@ -29,6 +29,9 @@ class PaymentController extends Controller
     {
         $ret['cartContents'] = Cart::content();
         $ret['cartTotal'] = Cart::total();
+        $ret['isCartContents'] = false;
+        // カートの中身が空かどうか判定
+        if ($ret['cartContents']->isNotEmpty()) $ret['isCartContents'] = true;
         return view('ec.payments.payIndex', $ret);
     }
 

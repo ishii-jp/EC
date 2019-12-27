@@ -2,6 +2,7 @@
 @section('content')
 <div class="container">
     @if(session('exception'))<p style="color:red">{{ session('exception') }}</p>@endif
+    @if ($isCartContents)
     <form action="{{ route('payRegistUserInfo') }}" method="POST">
     @csrf
         <table class="table table-striped">
@@ -40,6 +41,9 @@
                 data-currency="JPY">
             </script> --}}
     </form>
+    @else
+    <p>現在カートは空です。</p>
+    @endif
     <p><a href="{{ route('show') }}"><button class="btn btn-primary btn-sm" type="button">戻る</button></a></p>
 </div>
 @endsection
