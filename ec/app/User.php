@@ -44,6 +44,12 @@ class User extends Authenticatable
         return $this->hasOne(UserInfo::class);
     }
 
+    /**
+     * ユーザーを取得して返します。
+     *
+     * @param int $id
+     * @return collection
+     */
     public function getUser($id)
     {
         return self::with('userInfo')->where('id', $id)->first();

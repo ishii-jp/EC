@@ -26,6 +26,13 @@ class UserInfo extends Model
         }
     }
 
+    /**
+     * ユーザー情報を取得して返します。
+     * 存在しないuserIdだった場合はインスタンスを返します。
+     *
+     * @param int $userId
+     * @return collection　またはインスタンス
+     */
     public function getUserInfo($userId)
     {
         return self::firstOrNew(['user_id' => $userId]);
