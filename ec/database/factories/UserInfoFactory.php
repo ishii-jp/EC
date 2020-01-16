@@ -5,18 +5,12 @@
 use App\Model;
 use Faker\Generator as Faker;
 
-// $factory->define(Model::class, function (Faker $faker) {
-//     return [
-//         //
-//     ];
-// });
-
 $factory->define(App\UserInfo::class, function (Faker $faker) {
     return [
         'user_id' => 10,
         'name' => $faker->name,
-        'zip' => 898922,
+        'zip' => $faker->postcode,
         'address' => $faker->address,
-        'tel' => 07000001111,
+        'tel' => $faker->phoneNumber,
     ];
 });
