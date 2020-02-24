@@ -26,7 +26,7 @@ class PurchaseHistory extends Model
      */
     public function getPurchaseHistory($userId, $withTables = 'good')
     {
-        return $this::with($withTables)->where('user_id', $userId)->get();
+        return $this::with($withTables)->where('user_id', $userId)->orderBy('created_at', 'DESC')->get();
     }
 
     /**

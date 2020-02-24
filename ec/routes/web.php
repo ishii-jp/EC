@@ -46,9 +46,6 @@ Route::group(['prefix' => 'good'], function() {
 Route::get('/category', 'CategoryController@categoryIndex')->name('categoryIndex');
 Route::get('/category/{category_id}', 'CategoryController@categoryShow')->name('categoryShow');
 
-// 購入履歴機能
-Route::get('/purchaseHistory','purchaseHistoryController')->name('purchaseHistory');
-
 Auth::routes();
 
 // User 認証不要
@@ -61,6 +58,8 @@ Route::group(['middleware' => 'auth:web'], function() {
         Route::get('/', 'MyPageController@index')->name('myPage');
         Route::match(['get', 'post'], 'edit', 'MyPageController@edit')->name('myPageAdd');
     });
+    // 購入履歴機能
+    Route::get('/purchaseHistory','purchaseHistoryController')->name('purchaseHistory');
 });
 
 // Admin 認証不要

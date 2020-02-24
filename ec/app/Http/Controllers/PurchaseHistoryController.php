@@ -13,6 +13,7 @@ class PurchaseHistoryController extends Controller
     {
         $this->purchaseHistory = $purchaseHistory;
     }
+    
     /**
      * Handle the incoming request.
      *
@@ -21,11 +22,7 @@ class PurchaseHistoryController extends Controller
      */
     public function __invoke(Request $request)
     {
-        if (Auth::check()){
-            $purchaseHistories = $this->purchaseHistory->getPurchaseHistory(Auth::id());
-        } else {
-            throw new Exception('ログインしていません');
-        }
+        $purchaseHistories = $this->purchaseHistory->getPurchaseHistory(Auth::id());
         return view('ec.purchaseHistorys.index')->with('purchaseHistories', $purchaseHistories);
     }
 }
