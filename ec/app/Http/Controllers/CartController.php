@@ -46,7 +46,7 @@ class CartController extends Controller
             // $carts = Cart::content();
             foreach ($results as $result) $carts[] = Cart::get($result->rowId);
         } elseif('back'){
-            return redirect(route('top'));
+            return redirect(route('show'));
         }
         // return view('ec.carts.cartComplete', $post);
         return view('ec.carts.cartComplete', ['carts' => $carts]);
