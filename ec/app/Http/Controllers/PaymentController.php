@@ -132,6 +132,7 @@ class PaymentController extends Controller
                     // Mail::to('sadaharu5goo@icloud.com')->send(new PaymentComplete());
                 }
             } catch (Exception $e){
+                report($e);
                 DB::rollback();
                 $exception = 'エラーメッセージ：'. $e->getMessage();
             }

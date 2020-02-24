@@ -45,6 +45,7 @@ class GoodController extends Controller
             GoodsLibrary::goodCreate($request->all());
             DB::commit();
         } catch (Exception $e){
+            report($e);
             DB::rollback();
             $ret['exception'] = 'エラーメッセージ：'. $e->getMessage();
         }
@@ -70,6 +71,7 @@ class GoodController extends Controller
             GoodsLibrary::goodsUpdate($request->goods);
             DB::commit();
         } catch (Exception $e){
+            report($e);
             DB::rollback();
             $ret['exception'] = 'エラーメッセージ：'. $e->getMessage();
         }
