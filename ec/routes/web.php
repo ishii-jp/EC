@@ -46,6 +46,9 @@ Route::group(['prefix' => 'good'], function() {
 Route::get('/category', 'CategoryController@categoryIndex')->name('categoryIndex');
 Route::get('/category/{category_id}', 'CategoryController@categoryShow')->name('categoryShow');
 
+// 購入履歴機能
+Route::get('/purchaseHistory','purchaseHistoryController')->name('purchaseHistory');
+
 Auth::routes();
 
 // User 認証不要

@@ -20,9 +20,12 @@ use App\User;
 class PaymentController extends Controller
 {
     public $user;
-    public function __construct(User $user)
+    private $purchaseHistory;
+
+    public function __construct(User $user, \App\PurchaseHistory $purchaseHistory)
     {
         $this->user = $user;
+        $this->purchaseHistory = $purchaseHistory;
     }
 
     public function index()
@@ -120,7 +123,10 @@ class PaymentController extends Controller
                 if ($newStock < 0) $newStock = 0;
                 // 実際には、この辺りで決済処理をする。
                 Good::paymentGood($content, $newStock);
-                DB::commit();
+
+                // ログインしていたら購入履歴を記録する
+                if (Auth::check()) $this->purchaseHistory->registPurchaseHistory($key, Auth::id());
+
                 // カートの中身を削除
                 Cart::remove($key['rowId']);
                 // 購入完了メール送信(Dockerの環境だとメールのドライバがなくエラーとなるため、一先ずコメントアウトしてます)
@@ -131,6 +137,7 @@ class PaymentController extends Controller
                     // 普通の購入完了メールを送信する
                     // Mail::to('sadaharu5goo@icloud.com')->send(new PaymentComplete());
                 }
+                DB::commit();
             } catch (Exception $e){
                 report($e);
                 DB::rollback();

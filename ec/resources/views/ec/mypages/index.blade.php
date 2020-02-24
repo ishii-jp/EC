@@ -2,7 +2,12 @@
 @section('content')
 <div class="container">
     @if (session('msg')) {{ session('msg') }} @endif
-    <p><a href="{{ route('myPageAdd') }}"><button class="btn btn-primary btn-sm">ユーザー情報編集</button></a>
+    <table>
+        <tr>
+            <td><a href="{{ route('myPageAdd') }}"><button class="btn btn-primary btn-sm">ユーザー情報編集</button></a></td>
+            <td><a href="{{ route('purchaseHistory') }}"><button class="btn btn-primary btn-sm">購入履歴</button></a></td>
+        </tr>
+    <table>
     <table class="table table-striped">
         <tr>
             <th>氏名</th>
