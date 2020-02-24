@@ -13,7 +13,7 @@ class PurchaseHistoryController extends Controller
     {
         $this->purchaseHistory = $purchaseHistory;
     }
-    
+
     /**
      * Handle the incoming request.
      *
