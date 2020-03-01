@@ -62,9 +62,9 @@ class PaymentController extends Controller
             $ret['formValue']['userInfo']['mail_confirmation'] = $getUser->email;
 
             // 商品情報を$goodsへ格納する
-            $ret['cartContents'] = Cart::content();
+            $ret['cartContents'] = session()->get('cartContents');
             foreach ($ret['cartContents'] as $content){
-                $goods[$content->id] = Good::getGood($content->id);
+                $goods[$content['id']] = Good::getGood($content['id']);
             }
             $ret['goods'] = $goods;
        }

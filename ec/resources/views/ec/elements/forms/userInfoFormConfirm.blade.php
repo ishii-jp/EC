@@ -22,16 +22,12 @@
             <th>メールアドレス</th>
             <td>{{ $formValue['userInfo']['mail'] }}</td>
         </tr>
-        <tr>
-            <th>メールアドレス(確認用)</th>
-            <td>{{ $formValue['userInfo']['mail_confirmation'] }}</td>
-        </tr>
     </table>
 
     @if (Request::is('pay/userInfo/confirm') || isset($loginFlg))
         <p>購入商品情報</p>
         <table class="table table-striped">
-            @foreach ($cartContents->toArray() as $cartContent)
+            @foreach ($cartContents as $cartContent)
                 <tr>
                     <th>商品名</th>
                     <td>{{ $goods[$cartContent['id']]->name }}</td>
