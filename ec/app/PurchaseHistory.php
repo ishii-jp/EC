@@ -47,9 +47,9 @@ class PurchaseHistory extends Model
      * 購入履歴から最も多く購入されている商品ランキングを取得して返す
      * @return collection ランキング結果のコレクション、purchase_historiesにレコードがなければ空のコレクション
      */
-    public function purchaseHistoryRanking()
+    public function purchaseHistoryRanking($withTables = 'good')
     {
-        return $this::select(\DB::raw('count(*) as purchase_history_count, good_id'))
+        return $this::with($withTables)->select(\DB::raw('count(*) as purchase_history_count, good_id'))
         ->groupBy('good_id')
         ->orderBy('purchase_history_count', 'DESC')
         ->get();
