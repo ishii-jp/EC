@@ -42,6 +42,9 @@ Route::group(['prefix' => 'good'], function() {
     Route::get('{good_id}', 'GoodController@goodShow')->name('goodShow');
 });
 
+// 商品検索
+Route::match(['get','post'],'goodsSeatch', 'GoodsSearchController')->name('goodsSearch');
+
 // 商品カテゴリー機能
 Route::get('/category', 'CategoryController@categoryIndex')->name('categoryIndex');
 Route::get('/category/{category_id}', 'CategoryController@categoryShow')->name('categoryShow');
