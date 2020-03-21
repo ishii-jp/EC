@@ -19,9 +19,8 @@
             @endforeach
         </table>
         <p>合計￥{{ $cartTotal }}です。<br>本当に購入しますか？</p>
-
-        <input type="hidden" value="{{ $cartTotal }}">
-            <button class="btn btn-primary btn-sm" type="submit">購入する</button>
+        <input type="hidden" name="totalPrice" value="{{ $cartTotal }}">
+        <button class="btn btn-primary btn-sm" type="submit">購入する</button>
             {{-- <script>
                 $.ajaxSetup({
                     headers: {

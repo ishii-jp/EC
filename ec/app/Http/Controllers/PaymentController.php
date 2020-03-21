@@ -16,6 +16,7 @@ use App\Mail\PaymentCompleteNotStock;
 use App\Http\Requests\UserInfoRequest;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use App\Events\PointRegistered;
 
 class PaymentController extends Controller
 {
@@ -43,6 +44,8 @@ class PaymentController extends Controller
     {
         // フォーム送り先
         $ret['formAction'] = 'payPostRegistUserInfo';
+
+        $ret['totalPrice'] = $request->totalPrice; // 合計金額の取得
 
         // カート内の情報はセッションに保存する
         // リダイレクト時対策で、空に上書きを防ぐための条件です
@@ -87,7 +90,6 @@ class PaymentController extends Controller
         foreach ($cartContents as $key){
             $goods[$key['id']] = Good::getGood($key['id']);
         }
-        $ret['goods'] = $goods;
 
         if (Auth::check()){
             // 「戻る」ボタンが押された時の、リダイレクト処理
@@ -104,7 +106,7 @@ class PaymentController extends Controller
             // ユーザー情報を登録
 
             // 決済処理を行うため、pay()を呼び出す
-            $view = $this->pay($cartContents, $ret['goods']);
+            $view = $this->pay($cartContents, $goods, $request->totalPrice);
         }
         // ビューで使うため$retへ代入
         $ret['cartContents'] = $cartContents;
@@ -113,8 +115,14 @@ class PaymentController extends Controller
     }
 
     // 商品確認、購入数から在庫を引き算して、マイナスにならないことを判定、マイナスなら強制的に0を代入し送信するメールの種類を変更する。
-    public function pay(array $cartContents, array $goods)
+    public function pay(array $cartContents, array $goods, $totalPrice)
     {
+        // ログインしていたらポイントを登録する
+        if (Auth::check()){
+            $user_id = Auth::id();
+            event(new PointRegistered($totalPrice, Auth::id()));
+        }
+
         foreach ($cartContents as $key){
             DB::beginTransaction();
             try {
@@ -125,7 +133,7 @@ class PaymentController extends Controller
                 Good::paymentGood($content, $newStock);
 
                 // ログインしていたら購入履歴を記録する
-                if (Auth::check()) $this->purchaseHistory->registPurchaseHistory($key, Auth::id());
+                if (Auth::check()) $this->purchaseHistory->registPurchaseHistory($key, $user_id);
 
                 // カートの中身を削除
                 Cart::remove($key['rowId']);

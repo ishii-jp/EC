@@ -43,7 +43,7 @@
             @endforeach
             <tr>
                 <th>お支払額</th>
-                <td>¥{{ Cart::total() }}(税込)</td>
+                <td>¥{{ $totalPrice }}(税込)</td>
             </tr>
         </table>
         <input type="hidden" name="userInfo[name]" value="{{ $formValue['userInfo']['name'] }}">
@@ -56,6 +56,7 @@
         <input type="hidden" name="goods[name]" value="{{ $goods[$cartContent['id']]->name }}">
         <input type="hidden" name="goods[maker]" value="{{ $goods[$cartContent['id']]->maker->maker_name }}">
         <input type="hidden" name="goods[stock]" value="{{ $cartContent['qty'] }}">
+        <input type="hidden" name="totalPrice" value="{{ $totalPrice }}">
         @php $buttonValue = '購入'; @endphp
     @else
         @php $buttonValue = '登録'; @endphp

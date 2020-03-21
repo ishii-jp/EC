@@ -44,6 +44,11 @@ class User extends Authenticatable
         return $this->hasOne(UserInfo::class);
     }
 
+    public function point()
+    {
+        return $this->hasOne(Point::class);
+    }
+
     /**
      * ユーザーを取得して返します。
      *
