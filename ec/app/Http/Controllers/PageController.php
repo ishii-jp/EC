@@ -22,7 +22,6 @@ class PageController extends Controller
 
     public function show()
     {
-        // $ret['goods'] = Good::all(); // 商品一覧を取得
         $ret['goods'] = $this->good->getGoodAll(10); // 商品一覧を取得
 
         // $goodsRanking = file_get_contents('http://ec.local/api/goodsRanking'); // 人気商品ランキング取得
