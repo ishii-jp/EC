@@ -50,6 +50,7 @@ class PaymentController extends Controller
         // カート内の情報はセッションに保存する
         // リダイレクト時対策で、空に上書きを防ぐための条件です
         if($request->has('cartContents')) $request->session()->put('cartContents', $request->cartContents);
+        if(!empty($request->totalPrice)) $request->session()->put('totalPrice', $request->totalPrice);
 
          // ログインしてるかどうかで条件分岐
          if (Auth::check()){
@@ -90,6 +91,7 @@ class PaymentController extends Controller
         foreach ($cartContents as $key){
             $goods[$key['id']] = Good::getGood($key['id']);
         }
+        $ret['goods'] = $goods;
 
         if (Auth::check()){
             // 「戻る」ボタンが押された時の、リダイレクト処理
@@ -110,6 +112,7 @@ class PaymentController extends Controller
         }
         // ビューで使うため$retへ代入
         $ret['cartContents'] = $cartContents;
+        $ret['totalPrice'] = $request->session()->get('totalPrice');
 
         return view($view, $ret);
     }

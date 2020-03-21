@@ -31,5 +31,6 @@
             <td><input type="text" name="userInfo[mail_confirmation]" value="{{ old('userInfo.mail_confirmation') }}"></td>
         </tr>
     </table>
+    <input type="hidden" name="totalPrice" value="{{ $totalPrice }}">
     <button class="btn btn-primary btn-sm" name="confirm" value="確認" type="submit">確認</button>
 </form>
