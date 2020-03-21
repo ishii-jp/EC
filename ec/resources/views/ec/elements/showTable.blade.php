@@ -12,5 +12,7 @@
             </tr>
         @endforeach
     </table>
-    {{ $goods->links() }}
+    <div class="d-flex justify-content-center">
+        {{ $goods->links() }}
+    </div>
 </form>
