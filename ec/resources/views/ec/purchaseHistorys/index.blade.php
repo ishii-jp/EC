@@ -9,7 +9,9 @@
         <tr><th>商品名</th><th>購入数</th><th>購入日時</th></tr>
         @foreach ($purchaseHistories as $purchaseHistory)
             <tr>
-                <td>{{ $purchaseHistory->good->name }}</td>
+                <td>
+                    <a href="{{ route('goodShow',$purchaseHistory->good->id) }}">{{ $purchaseHistory->good->name }}</a>
+                </td>
                 <td>{{ $purchaseHistory->qty }}</td>
                 <td>{{ $purchaseHistory->created_at }}</td>
             </tr>

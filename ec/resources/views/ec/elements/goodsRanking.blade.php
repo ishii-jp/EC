@@ -4,7 +4,7 @@
     @foreach ($goodsRanking as $key => $ranking)
         <tr>
             <td>{{$key + 1}}</td>
-            <td>{{$ranking->good->name}}</td>
+            <td><a href="{{ route('goodShow',$ranking->good->id) }}">{{$ranking->good->name}}</a></td>
         </tr>
     @endforeach
 </table>
