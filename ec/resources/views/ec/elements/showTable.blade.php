@@ -12,4 +12,5 @@
             </tr>
         @endforeach
     </table>
+    {{ $goods->links() }}
 </form>
