@@ -9,14 +9,17 @@ use App\UserInfo;
 class MyPageController extends Controller
 {
     public $userInfo;
-    public function __construct(UserInfo $userInfo)
+    private $user;
+
+    public function __construct(UserInfo $userInfo, \App\User $user)
     {
         $this->userInfo = $userInfo;
+        $this->user = $user;
     }
 
     public function index()
     {
-        $ret['userInfo'] = $this->userInfo->getUserInfo(Auth::user()->id);
+        $ret['user'] = $this->user->getUser(Auth::id(), ['userInfo', 'point']);
         return view('ec.mypages.index', $ret);
     }
 
@@ -29,7 +32,8 @@ class MyPageController extends Controller
 
             return redirect()->route('myPage')->with('msg', 'ユーザー情報を更新しました');
         } else {
-            $ret['userInfo'] = $this->userInfo->getUserInfo(Auth::user()->id);
+            $ret['user_id'] = Auth::id();
+            $ret['userInfo'] = $this->userInfo->getUserInfo($ret['user_id']);
             return view('ec.mypages.add', $ret);
         }
     }

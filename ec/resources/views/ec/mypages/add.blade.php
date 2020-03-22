@@ -21,8 +21,9 @@
                 <td><input type="text" name="userInfo[tel]" value="{{ old('userInfo.tel', $userInfo->tel) }}"></td>
             </tr>
         </table>
-        <input type="hidden" name="userInfo[user_id]" value="{{ Auth::user()->id }}">
+        <input type="hidden" name="userInfo[user_id]" value="{{ $user_id }}">
         <button class="btn btn-primary btn-sm" type="submit">登録</button>
     </form>
+    <a href="{{ route('myPage') }}"><button class="btn btn-primary btn-sm">マイページへ戻る</button></a>
 </div>
 @endsection

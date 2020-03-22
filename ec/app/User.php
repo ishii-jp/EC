@@ -55,8 +55,8 @@ class User extends Authenticatable
      * @param int $id
      * @return collection
      */
-    public function getUser($id)
+    public function getUser($id, $with = 'userInfo')
     {
-        return self::with('userInfo')->where('id', $id)->first();
+        return $this->with($with)->where('id', $id)->first();
     }
 }
