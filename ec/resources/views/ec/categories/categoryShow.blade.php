@@ -4,6 +4,7 @@
     @if (Cart::count() > 0)
         @include('ec.elements.carts.index')
     @endif
+    <p><a href="{{ route('categoryIndex') }}">カテゴリー一覧画面へ戻る</a></p>
     @include('ec.elements.showTable')
 </div>
 @endsection
