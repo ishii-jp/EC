@@ -6,5 +6,6 @@
     @endif
     <p><a href="{{ route('categoryIndex') }}">カテゴリー一覧画面へ戻る</a></p>
     @include('ec.elements.showTable')
+    @include('ec.elements.goodsRanking')
 </div>
 @endsection

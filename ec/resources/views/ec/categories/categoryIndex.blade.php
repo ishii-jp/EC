@@ -11,5 +11,6 @@
         @endforeach
     </ul>
     <a href="{{ route('show') }}"><button class="btn btn-primary btn-sm" type="button">商品一覧へ戻る</button></a>
+    @include('ec.elements.goodsRanking')
 </div>
 @endsection

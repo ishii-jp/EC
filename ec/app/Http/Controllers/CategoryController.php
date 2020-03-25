@@ -8,15 +8,26 @@ use App\Category;
 
 class CategoryController extends Controller
 {
+    private $goodsRanking;
+
+    public function __construct()
+    {
+        $goodsRanking = file_get_contents('http://ec.local/api/goodsRanking'); // 人気商品ランキング取得
+        $this->goodsRanking = json_decode($goodsRanking, true);
+    }
+
     public function categoryIndex()
     {
-        $categories = Category::all();
-        return view('ec.categories.categoryIndex', ['categories' => $categories]);
+        $ret['categories'] = Category::all();
+        $ret['goodsRanking'] = $this->goodsRanking;
+        return view('ec.categories.categoryIndex', $ret);
     }
 
     public function categoryShow(Request $request)
     {
-        $goods = Good::with('category')->where('category_id', $request->category_id)->paginate(10);
-        return view('ec.categories.categoryShow', ['goods' => $goods]);
+        $ret['goodsRanking'] = $this->goodsRanking;
+
+        $ret['goods'] = Good::with('category')->where('category_id', $request->category_id)->paginate(10);
+        return view('ec.categories.categoryShow', $ret);
     }
 }
