@@ -12,6 +12,7 @@
 
     <p><a href="{{ route('categoryIndex') }}">カテゴリーごとにみる</a></p>
     @include('ec.elements.showTable')
-    <a href="{{ route('top') }}"><button class="btn btn-primary btn-sm" type="button">前へ戻る</button></a>
+    <a href="{{ route('top') }}"><button class="btn btn-primary btn-sm" type="button">トップへ戻る</button></a>
+    @include('ec.elements.goodsRanking')
 </div>
 @endsection

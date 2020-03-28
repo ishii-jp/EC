@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class GoodRankingController extends Controller
 {
@@ -22,6 +23,11 @@ class GoodRankingController extends Controller
     public function __invoke()
     {
         // 商品ランキングを返します
-        return json_encode($this->purchaseHistory->purchaseHistoryRanking());
+        if (Cache::has('purchaseHistoryRanking')) return json_encode(Cache::get('purchaseHistoryRanking'));
+
+        $ranking = $this->purchaseHistory->purchaseHistoryRanking();
+        Cache::put('purchaseHistoryRanking', $ranking);
+
+        return json_encode($ranking);
     }
 }

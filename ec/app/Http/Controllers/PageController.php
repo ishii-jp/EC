@@ -24,8 +24,7 @@ class PageController extends Controller
     {
         $ret['goods'] = $this->good->getGoodAll(10); // 商品一覧を取得
 
-        $goodsRanking = file_get_contents('http://ec.local/api/goodsRanking'); // 人気商品ランキング取得
-        $ret['goodsRanking'] = json_decode($goodsRanking, true);
+        $ret['goodsRanking'] = json_decode(file_get_contents('http://ec.local/api/goodsRanking'), true); // 人気商品ランキング取得
 
         return view('ec.show', $ret);
     }

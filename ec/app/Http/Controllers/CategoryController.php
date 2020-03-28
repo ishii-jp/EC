@@ -12,8 +12,7 @@ class CategoryController extends Controller
 
     public function __construct()
     {
-        $goodsRanking = file_get_contents('http://ec.local/api/goodsRanking'); // 人気商品ランキング取得
-        $this->goodsRanking = json_decode($goodsRanking, true);
+        $this->goodsRanking = json_decode(file_get_contents('http://ec.local/api/goodsRanking'), true); // 人気商品ランキング取得
     }
 
     public function categoryIndex()
