@@ -21,6 +21,9 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
+    public $maxAttempts = 3; //ログイン実行可能回数
+    public $decayMinutes = 2; //ログインロックアウト回数
+
     /**
      * Where to redirect users after login.
      *
