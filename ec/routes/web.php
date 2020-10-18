@@ -78,8 +78,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
     Route::get('home',      'Admin\HomeController@index')->name('admin.home');
 });
 
-// Route::get('/home', 'HomeController@index')->name('home');
-
 // OAuth認証
 // facebook
 Route::get('login/facebook', 'Auth\LoginController@redirectToProvider');

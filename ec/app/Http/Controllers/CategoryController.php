@@ -8,16 +8,26 @@ use App\Category;
 
 class CategoryController extends Controller
 {
+    /** @var array 商品ランキング */
     private $goodsRanking;
 
-    public function __construct()
+    /** @var Category Categoryインスタンス */
+    public $category;
+
+    /**
+     * __construct
+     *
+     * @param Category $category
+     */
+    public function __construct(Category $category)
     {
+        $this->category = $category;
         $this->goodsRanking = json_decode(file_get_contents('http://ec.local/api/goodsRanking'), true); // 人気商品ランキング取得
     }
 
     public function categoryIndex()
     {
-        $ret['categories'] = Category::all();
+        $ret['categories'] = $this->category->getCategoryAll();
         $ret['goodsRanking'] = $this->goodsRanking;
         return view('ec.categories.categoryIndex', $ret);
     }

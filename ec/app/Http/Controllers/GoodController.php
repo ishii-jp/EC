@@ -13,16 +13,34 @@ use Exception;
 
 class GoodController extends Controller
 {
+    /** @var Category Categoryインスタンス */
+    public $category;
+
+    /** @var Maker Makerインスタンス */
+    public $maker;
+
+    /**
+     * __construct
+     *
+     * @param Category $category
+     * @param Maker $maker
+     */
+    public function __construct(Category $category, Maker $maker)
+    {
+        $this->category = $category;
+        $this->maker = $maker;
+    }
+
     public function goodIndex()
     {
         // 商品情報を取得
         $ret['goods'] = Good::with(['category', 'maker'])->get();
 
         // カテゴリーを取得
-        $ret['categories'] = Category::all();
+        $ret['categories'] = $this->category->getCategoryAll();
 
         // メーカーを取得
-        $ret['makers'] = Maker::all();
+        $ret['makers'] = $this->maker->getMakerAll();
         return view('ec.goods.goodIndex', $ret);
     }
 
@@ -30,10 +48,10 @@ class GoodController extends Controller
     {
         //新規商品登録する処理をここに書く
         // カテゴリーを取得
-        $ret['categories'] = Category::all();
+        $ret['categories'] = $this->category->getCategoryAll();
 
         // メーカーを取得
-        $ret['makers'] = Maker::all();
+        $ret['makers'] = $this->maker->getMakerAll();
 
         return view('ec.goods.goodAdd', $ret);
     }
@@ -55,7 +73,7 @@ class GoodController extends Controller
 
     public function goodShow(Request $request)
     {
-        $good = Good::find($request->good_id);
+        $good = Good::getGoodFindId($request->good_id);
         return view('ec.goods.goodShow', ['good' => $good]);
     }
 

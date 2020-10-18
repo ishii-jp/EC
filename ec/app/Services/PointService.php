@@ -1,10 +1,15 @@
 <?php
+
 namespace App\Services;
 
+/**
+ * PointService class
+ */
 class PointService
 {
     /**
      * 購入金額からポイントを計算して返します。
+     * 
      * @param int price
      * @return int point
      */
@@ -17,6 +22,7 @@ class PointService
 
     /**
      * 現在のポイントと購入して得たポイントを合算します。
+     * 
      * @param int addPoint 追加するポイント
      * @param int pointNow 現在のポイント
      * @return int 合算したポイント

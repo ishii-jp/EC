@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\PurchaseHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -9,7 +10,12 @@ class PurchaseHistoryController extends Controller
 {
     private $purchaseHistory;
 
-    public function __construct(\App\purchaseHistory $purchaseHistory)
+    /**
+     * __construct
+     *
+     * @param PurchaseHistory $purchaseHistory
+     */
+    public function __construct(PurchaseHistory $purchaseHistory)
     {
         $this->purchaseHistory = $purchaseHistory;
     }

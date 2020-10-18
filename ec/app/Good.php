@@ -10,11 +10,23 @@ class Good extends Model
         'name', 'kana', 'category_id', 'maker_id', 'price', 'stock','good_details'
     ];
 
+    /**
+     * categoriesテーブルリレーション
+     * belongsTo
+     *
+     * @return void
+     */
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
+    /**
+     * makersテーブルリレーション
+     * belongTo
+     *
+     * @return void
+     */
     public function maker()
     {
         return $this->belongsTo(Maker::class);
@@ -49,9 +61,10 @@ class Good extends Model
 
     /**
      * 商品情報をあいまい検索して結果を返す
+     * 
      * @param string $column
      * @param string $column
-     * @string Good|null Goodオブジェクトまたは結果0件だった場合はnull
+     * @return Good|null Goodオブジェクトまたは結果0件だった場合はnull
      */
     public function getGoodSearch($column, $where)
     {
@@ -63,7 +76,8 @@ class Good extends Model
      * 初期値は全件取得。
      * $paginateNumに数の指定があったら指定した件数でページネーションして取得して返す
      * $sortは初期値DESCです
-     * @parama int id
+     * 
+     * @param int id
      * @return Good
      */
     public function getGoodAll($paginateNum = 0, $sort = 'DESC')
@@ -75,16 +89,18 @@ class Good extends Model
 
     /**
      * idの商品情報を返す
+     * 
      * @param int id
      * @return Good
      */
-    public static function getGood($id)
+    public static function getGoodFindId($id)
     {
         return self::find($id);
     }
 
     /**
      * 商品の在庫数をアップデートします
+     * 
      * @param Good $good Goodオブジェクト
      * @param int $stock アップデートする在庫数
      */

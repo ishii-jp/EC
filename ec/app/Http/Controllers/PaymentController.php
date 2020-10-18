@@ -8,27 +8,36 @@ use Illuminate\Http\Request;
 // use Stripe\Customer;
 use Cart;
 use App\Good;
-use Illuminate\Support\Facades\DB;
-use Exception;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\PaymentComplete;
-use App\Mail\PaymentCompleteNotStock;
 use App\Http\Requests\UserInfoRequest;
 use Illuminate\Support\Facades\Auth;
 use App\User;
-use App\Events\PointRegistered;
+use App\Services\PaymentService;
 
 class PaymentController extends Controller
 {
+    /** @var User Userインスタンス */
     public $user;
-    private $purchaseHistory;
 
-    public function __construct(User $user, \App\PurchaseHistory $purchaseHistory)
+    /** @var PaymentService PaymentServiceインスタンス */
+    public $paymentService;
+
+    /**
+     * __construct
+     *
+     * @param User $user
+     * @param PaymentService $paymentService
+     */
+    public function __construct(User $user, PaymentService $paymentService)
     {
         $this->user = $user;
-        $this->purchaseHistory = $purchaseHistory;
+        $this->paymentService = $paymentService;
     }
 
+    /**
+     * index
+     *
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function index()
     {
         $ret['cartContents'] = Cart::content();
@@ -39,12 +48,16 @@ class PaymentController extends Controller
         return view('ec.payments.payIndex', $ret);
     }
 
-    // 非会員の決算時にユーザー情報をフォームから取得
+    /**
+     * registUserInfo
+     * 非会員の決算時にユーザー情報をフォームから取得
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function registUserInfo(Request $request)
     {
-        // フォーム送り先
-        $ret['formAction'] = 'payPostRegistUserInfo';
-
+        $ret['formAction'] = 'payPostRegistUserInfo'; // フォーム送り先
         $ret['totalPrice'] = $request->totalPrice; // 合計金額の取得
 
         // カート内の情報はセッションに保存する
@@ -68,28 +81,28 @@ class PaymentController extends Controller
             // 商品情報を$goodsへ格納する
             $ret['cartContents'] = session()->get('cartContents');
             foreach ($ret['cartContents'] as $content){
-                $goods[$content['id']] = Good::getGood($content['id']);
+                $goods[$content['id']] = Good::getGoodFindId($content['id']);
             }
             $ret['goods'] = $goods;
        }
-
         return view('ec.payments.payUserInfo', $ret);
     }
 
+    /**
+     * postRegistUserInfo
+     *
+     * @param userInfoRequest $request
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse
+     */
     public function postRegistUserInfo(userInfoRequest $request)
     {
-        // セッションからカート内の情報を取得
-        $cartContents = $request->session()->get('cartContents');
-
-        // フォームの値を取得
-        $ret['formValue'] = $request->except('_token');
-
-        // フォーム送り先
-        $ret['formAction'] = 'payPostRegistUserInfo';
+        $cartContents = $request->session()->get('cartContents'); // セッションからカート内の情報を取得
+        $ret['formValue'] = $request->except('_token'); // フォームの値を取得
+        $ret['formAction'] = 'payPostRegistUserInfo'; // フォーム送り先
 
         // ここで商品情報をカート情報から取得します
         foreach ($cartContents as $key){
-            $goods[$key['id']] = Good::getGood($key['id']);
+            $goods[$key['id']] = Good::getGoodFindId($key['id']);
         }
         $ret['goods'] = $goods;
 
@@ -105,61 +118,13 @@ class PaymentController extends Controller
             // 確認画面のビューを返す
             $view = 'ec.payments.payUserInfo';
         } else {
-            // ユーザー情報を登録
-
-            // 決済処理を行うため、pay()を呼び出す
-            $view = $this->pay($cartContents, $goods, $request->totalPrice);
+            $this->paymentService->pay($cartContents, $goods, $request->totalPrice); // 決済処理
+            $view = 'ec.payments.payComplete'; // 購入完了画面へ
         }
         // ビューで使うため$retへ代入
         $ret['cartContents'] = $cartContents;
         $ret['totalPrice'] = $request->session()->get('totalPrice');
 
         return view($view, $ret);
-    }
-
-    // 商品確認、購入数から在庫を引き算して、マイナスにならないことを判定、マイナスなら強制的に0を代入し送信するメールの種類を変更する。
-    public function pay(array $cartContents, array $goods, $totalPrice)
-    {
-        // ログインしていたらポイントを登録する
-        if (Auth::check()){
-            $user_id = Auth::id();
-            event(new PointRegistered($totalPrice, Auth::id()));
-        }
-
-        foreach ($cartContents as $key){
-            DB::beginTransaction();
-            try {
-                $content = $goods[$key['id']];
-                $newStock = $content->stock - $key['qty'];
-                if ($newStock < 0) $newStock = 0;
-                // 実際には、この辺りで決済処理をする。
-                Good::paymentGood($content, $newStock);
-
-                // ログインしていたら購入履歴を記録する
-                if (Auth::check()) $this->purchaseHistory->registPurchaseHistory($key, $user_id);
-
-                // カートの中身を削除
-                Cart::remove($key['rowId']);
-                // 購入完了メール送信(Dockerの環境だとメールのドライバがなくエラーとなるため、一先ずコメントアウトしてます)
-                if ($newStock == 0){
-                    // 在庫ぎれになったバージョンのメールを送信する。
-                    // Mail::to('sadaharu5goo@icloud.com')->send(new PaymentCompleteNotStock());
-                } else {
-                    // 普通の購入完了メールを送信する
-                    // Mail::to('sadaharu5goo@icloud.com')->send(new PaymentComplete());
-                }
-                DB::commit();
-            } catch (Exception $e){
-                report($e);
-                DB::rollback();
-                $exception = 'エラーメッセージ：'. $e->getMessage();
-            }
-        }
-
-        if (isset($exception)) return back()->with('exception', $exception);
-
-        // 購入完了画面へ
-        $view = 'ec.payments.payComplete';
-        return $view;
     }
 }

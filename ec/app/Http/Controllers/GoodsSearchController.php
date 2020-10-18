@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\GoodsSearchService;
 use Illuminate\Http\Request;
 
 class GoodsSearchController extends Controller
 {
     private $goodsSearchService;
 
-    public function __construct(\App\Services\GoodsSearchService $goodsSearchService)
+    /**
+     * __construct
+     *
+     * @param GoodsSearchService $goodsSearchService
+     */
+    public function __construct(GoodsSearchService $goodsSearchService)
     {
         $this->goodsSearchService = $goodsSearchService;
     }
