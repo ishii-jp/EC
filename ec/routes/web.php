@@ -48,8 +48,15 @@ Route::group(['prefix' => 'good'], function() {
 Route::match(['get','post'],'goodsSeatch', 'GoodsSearchController')->name('goodsSearch');
 
 // 商品カテゴリー機能
-Route::get('/category', 'CategoryController@categoryIndex')->name('category');
-Route::get('/category/{category_id}', 'CategoryController@categoryShow')->name('category.category_id');
+Route::group(['prefix' => 'category'], function() {
+    Route::get('', 'CategoryController@categoryIndex')->name('category');
+    // 管理者機能
+    Route::middleware('auth:admin')->group(function (){
+        Route::get('add', 'CategoryController@categoryAdd')->name('category.add');
+        Route::post('add/post', 'CategoryController@categoryAddPost')->name('category.add.post');
+    });
+    Route::get('{category_id}', 'CategoryController@categoryShow')->name('category.category_id');
+});
 
 Auth::routes();
 

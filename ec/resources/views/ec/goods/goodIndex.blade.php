@@ -2,7 +2,7 @@
 @section('content')
 <div class="container">
     <p><a href="{{ route('good.add') }}">新規商品登録はこちら</a></p>
-    <p><a href="">新規カテゴリー登録はこちら</a></p>
+    <p><a href="{{ route('category.add') }}">新規カテゴリー登録はこちら</a></p>
     <p><a href="">新規メーカー登録はこちら</a></p>
     <h4>現在の取り扱い商品一覧</h4>
     @if (isset($goods))
