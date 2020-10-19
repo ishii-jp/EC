@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 // use Stripe\Charge;
 // use Stripe\Customer;
 use Cart;
+use App\Events\PointRegistered;
 use App\Good;
 use App\Http\Requests\UserInfoRequest;
 use Illuminate\Support\Facades\Auth;
@@ -118,7 +119,11 @@ class PaymentController extends Controller
             // 確認画面のビューを返す
             $view = 'ec.payments.payUserInfo';
         } else {
-            $this->paymentService->pay($cartContents, $goods, $request->totalPrice); // 決済処理
+            // ログインしていたらポイントを登録する
+            if (Auth::check()) {
+                event(new PointRegistered($request->totalPrice, Auth::id()));
+            }
+            $this->paymentService->pay($cartContents, $goods); // 決済処理
             $view = 'ec.payments.payComplete'; // 購入完了画面へ
         }
         // ビューで使うため$retへ代入
