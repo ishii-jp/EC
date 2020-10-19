@@ -27,6 +27,6 @@ class Category extends Model
      */
     public function getCategoryAll()
     {
-        return self::all();
+        return $this->all();
     }
 }
