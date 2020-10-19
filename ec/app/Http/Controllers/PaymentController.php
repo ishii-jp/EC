@@ -57,7 +57,7 @@ class PaymentController extends Controller
      */
     public function registUserInfo(Request $request)
     {
-        $ret['formAction'] = 'payPostRegistUserInfo'; // フォーム送り先
+        $ret['formAction'] = 'pay.useInfo.confirm'; // フォーム送り先
         $ret['totalPrice'] = $request->totalPrice; // 合計金額の取得
 
         // カート内の情報はセッションに保存する
@@ -70,7 +70,7 @@ class PaymentController extends Controller
             // ログインしていれば$ret['formValue']にDBから情報を格納する
             $getUser = $this->user->getUser(Auth::user()->id);
             $ret['loginFlg'] = true;
-            $ret['formAction'] = 'payPostRegistUserInfo';
+            $ret['formAction'] = 'pay.useInfo.confirm';
             $ret['formValue']['userInfo']['name'] = $getUser->userInfo->name;
             $ret['formValue']['userInfo']['zip'] = $getUser->userInfo->zip;
             $ret['formValue']['userInfo']['address'] = $getUser->userInfo->address;
@@ -98,7 +98,7 @@ class PaymentController extends Controller
     {
         $cartContents = $request->session()->get('cartContents'); // セッションからカート内の情報を取得
         $ret['formValue'] = $request->except('_token'); // フォームの値を取得
-        $ret['formAction'] = 'payPostRegistUserInfo'; // フォーム送り先
+        $ret['formAction'] = 'pay.useInfo.confirm'; // フォーム送り先
 
         // ここで商品情報をカート情報から取得します
         foreach ($cartContents as $key){
@@ -111,7 +111,7 @@ class PaymentController extends Controller
             if ($request->filled('back')) return redirect()->route('pay');
         } else {
             // 「修正する」ボタンが押された時の、リダイレクト処理
-            if ($request->filled('back')) return redirect()->route('payRegistUserInfo')->withInput();
+            if ($request->filled('back')) return redirect()->route('pay.userInfo')->withInput();
         }
 
         if ($request->filled('confirm')){

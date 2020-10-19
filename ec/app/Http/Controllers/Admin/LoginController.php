@@ -27,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = "route('goodIndex')";
+    protected $redirectTo = "route('good.index')";
 
     /**
      * Create a new controller instance.

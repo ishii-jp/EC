@@ -1,14 +1,14 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-    <p><a href="{{ route('goodAdd') }}">新規商品登録はこちら</a></p>
+    <p><a href="{{ route('good.add') }}">新規商品登録はこちら</a></p>
     <p><a href="">新規カテゴリー登録はこちら</a></p>
     <p><a href="">新規メーカー登録はこちら</a></p>
     <h4>現在の取り扱い商品一覧</h4>
     @if (isset($goods))
     @include('ec.elements.goods.msg')
     @include('ec.elements.exception')
-    <form action="{{ route('goodUpdate') }}" method="POST">
+    <form action="{{ route('good.update') }}" method="POST">
         @csrf
         <table class="table table-striped">
             <tr><th>商品名</th><th>ふりがな</th><th>カテゴリー名</th><th>メーカー名</th><th>値段</th><th>在庫</th><th>商品説明</th></tr>

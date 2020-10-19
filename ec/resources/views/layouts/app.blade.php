@@ -76,7 +76,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('show') }}">商品一覧</a>
-                                    <a class="dropdown-item" href="{{ route('cartShow') }}">カート</a>
+                                    <a class="dropdown-item" href="{{ route('cart') }}">カート</a>
                                 </div>
                             </li>
                     </ul>

@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\UserInfo;
 
@@ -12,24 +11,14 @@ class UserInfoTest extends TestCase
     use RefreshDatabase; //自動でマイグレーション実行
 
     /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-    // public function testExample()
-    // {
-    //     $this->assertTrue(true);
-    // }
-
-    /**
      * @test
      */
-    public function edifUserInfo()
+    public function edifUserInfo_userinfoを編集できること()
     {
         factory(UserInfo::class)->create(['name' => 'ishii']);
 
         $userInfo = new UserInfo;
-        $testResult = $userInfo->editUserInfo([
+        $userInfo->editUserInfo([
             'user_id' => 1,
             'name' => 'テスト',
             'zip' => '100-0001',
@@ -44,19 +33,19 @@ class UserInfoTest extends TestCase
     /**
      * @test
      */
-    public function getUserInfo()
+    public function getUserInfo_userInfoを作成できること()
     {
         factory(UserInfo::class)->create();
 
         $userInfo = new UserInfo;
-        $result = $userInfo->getUserInfo(10);
+        $userInfo->getUserInfo(10);
         $this->assertDatabaseHas('user_infos', ['user_id' => 10]);
     }
 
     /**
      * @test
      */
-    public function httpRequest()
+    public function httpRequest_正常にトップ画面へアクセスできること()
     {
         $response = $this->get(route('top'));
         $response->assertStatus(200);

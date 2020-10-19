@@ -26,7 +26,7 @@ class PurchaseHistoryTest extends TestCase
     /**
      * @test
      */
-    public function registPurchaseHistoryで普通に登録ができること()
+    public function registPurchaseHistory_普通に登録ができること()
     {
         $purchaseHistory = new PurchaseHistory;
         $item = ['id' => 80, 'qty' => 1];
@@ -39,7 +39,7 @@ class PurchaseHistoryTest extends TestCase
     /**
      * @test
      */
-    public function getPurchaseHistoryでsetUpにて作成した購入履歴を取得できること()
+    public function getPurchaseHistory_setUpにて作成した購入履歴を取得できること()
     {
         $purchaseHistory = new PurchaseHistory;
         $purchaseHistory->getPurchaseHistory($this->userId);

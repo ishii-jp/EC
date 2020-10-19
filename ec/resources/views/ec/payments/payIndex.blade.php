@@ -3,7 +3,7 @@
 <div class="container">
     @if(session('exception'))<p style="color:red">{{ session('exception') }}</p>@endif
     @if ($isCartContents)
-    <form action="{{ route('payRegistUserInfo') }}" method="POST">
+    <form action="{{ route('pay.userInfo') }}" method="POST">
     @csrf
         <table class="table table-striped">
             <tr><th>商品名</th><th>値段</th><th>購入数</th></tr>

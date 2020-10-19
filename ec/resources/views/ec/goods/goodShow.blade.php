@@ -9,7 +9,7 @@
         <tr><th>商品名</th><th>カテゴリー</th><th>メーカー</th><th>値段</th><th>在庫</th></tr>
         <tr>
             <td>{{ $good->name }}</td>
-            <td><a href="{{ route('categoryShow', $good->category_id) }}">{{ $good->category->category_name }}</a></td>
+            <td><a href="{{ route('category.category_id', $good->category_id) }}">{{ $good->category->category_name }}</a></td>
             <td>{{ $good->maker->maker_name }}</td>
             <td>￥{{ $good->price }}</td>
             <td>{{ $good->stock }}</td>
@@ -18,7 +18,7 @@
     <span>商品説明</span>
     <p>{{ $good->good_details }}</p>
     <!-- この辺りに商品イメージ画像を表示できるようにする。 -->
-    <form action="{{ route('cartConfirm') }}" method="post">
+    <form action="{{ route('cart.confirm') }}" method="post">
         @csrf
         <p><button class="btn btn-primary btn-sm" type="submit" name="good_id" value="{{ $good->id }}">カートへ入れる</button></p>
     </form>

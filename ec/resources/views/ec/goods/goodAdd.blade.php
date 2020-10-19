@@ -9,7 +9,7 @@
             <p style="color:red">{{ $message }}</p>
         @endforeach
     @endif
-        <form action="{{ route('goodCreate') }}" method="POST">
+        <form action="{{ route('good.create') }}" method="POST">
         @csrf
             <table class="table table-striped">
                 <tr><th>商品名</th><th>ふりがな</th><th>カテゴリー名</th><th>メーカー名</th><th>値段</th><th>在庫</th><th>商品説明</th></tr>

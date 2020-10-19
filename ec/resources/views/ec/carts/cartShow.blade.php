@@ -2,7 +2,7 @@
 @section('content')
 <div class="container">
     <h5>カート一覧</h5>
-    <form action="{{ route('cartDelete') }}" method="post">
+    <form action="{{ route('cart.delete') }}" method="post">
         @csrf
         {{ method_field('delete') }}
         <table class="table table-striped">
@@ -19,8 +19,8 @@
     </form>
     <p>カート内合計￥{{ Cart::total() }}</p>
 
-    <p><a href="{{ route('payIndex') }}"><button class="btn btn-primary btn-sm" type="button">お会計へ進む</button></a></p>
-    <form action="{{ route('cartReset') }}" method="post">
+    <p><a href="{{ route('pay') }}"><button class="btn btn-primary btn-sm" type="button">お会計へ進む</button></a></p>
+    <form action="{{ route('cart.reset') }}" method="post">
         @csrf
         {{ method_field('delete') }}
         <p><button class="btn btn-primary btn-sm" type="submit">カートを空にする</button></p>

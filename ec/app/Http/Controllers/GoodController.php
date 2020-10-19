@@ -68,7 +68,7 @@ class GoodController extends Controller
             $ret['exception'] = 'エラーメッセージ：'. $e->getMessage();
         }
         $ret['msg'] = '登録が完了しました。';
-        return redirect()->route('goodAdd')->with($ret);
+        return redirect()->route('good.add')->with($ret);
     }
 
     public function goodShow(Request $request)
@@ -94,6 +94,6 @@ class GoodController extends Controller
             $ret['exception'] = 'エラーメッセージ：'. $e->getMessage();
         }
         $ret['msg'] = '更新が完了しました。';
-        return redirect()->route('goodIndex')->with($ret);
+        return redirect()->route('good.index')->with($ret);
     }
 }

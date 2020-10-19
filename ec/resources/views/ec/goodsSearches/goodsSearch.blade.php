@@ -10,7 +10,7 @@
     @include('ec.elements.goodsSearch')
     {{-- 商品検索 --}}
 
-    <p><a href="{{ route('categoryIndex') }}">カテゴリーごとにみる</a></p>
+    <p><a href="{{ route('category') }}">カテゴリーごとにみる</a></p>
     @include('ec.elements.showTable')
     <a href="{{ route('top') }}"><button class="btn btn-primary btn-sm" type="button">トップへ戻る</button></a>
     @include('ec.elements.goodsRanking')

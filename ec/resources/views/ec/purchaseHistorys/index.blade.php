@@ -10,7 +10,7 @@
         @foreach ($purchaseHistories as $purchaseHistory)
             <tr>
                 <td>
-                    <a href="{{ route('goodShow',$purchaseHistory->good->id) }}">{{ $purchaseHistory->good->name }}</a>
+                    <a href="{{ route('good.good_id',$purchaseHistory->good->id) }}">{{ $purchaseHistory->good->name }}</a>
                 </td>
                 <td>{{ $purchaseHistory->qty }}</td>
                 <td>{{ $purchaseHistory->created_at }}</td>

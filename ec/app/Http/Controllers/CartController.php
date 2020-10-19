@@ -55,12 +55,12 @@ class CartController extends Controller
     public function cartReset()
     {
         Cart::destroy();
-        return redirect(route('cartShow'));
+        return redirect(route('cart'));
     }
 
     public function cartDelete(Request $request)
     {
         Cart::remove($request->rowId);
-        return redirect(route('cartShow'));
+        return redirect(route('cart'));
     }
 }

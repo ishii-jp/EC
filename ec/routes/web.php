@@ -16,38 +16,37 @@ Route::get('/show', 'PageController@show')->name('show');
 
 // カート機能
 Route::group(['prefix' => 'cart'], function() {
-    Route::get('/', 'CartController@cartShow')->name('cartShow');
-    Route::delete('delete', 'CartController@cartDelete')->name('cartDelete');
-    Route::delete('reset', 'CartController@cartReset')->name('cartReset');
-    Route::post('confirm', 'CartController@cartConfirm')->name('cartConfirm');
-    Route::post('add', 'CartController@cartAdd')->name('cartAdd');
+    Route::get('/', 'CartController@cartShow')->name('cart');
+    Route::delete('delete', 'CartController@cartDelete')->name('cart.delete');
+    Route::delete('reset', 'CartController@cartReset')->name('cart.reset');
+    Route::post('confirm', 'CartController@cartConfirm')->name('cart.confirm');
+    Route::post('add', 'CartController@cartAdd')->name('cart.add');
 });
 
 // 決済機能
 Route::group(['prefix' => 'pay'], function() {
-    Route::get('/', 'PaymentController@index')->name('payIndex');
-    Route::post('/', 'PaymentController@pay')->name('pay');
-    Route::match(['get', 'post'], 'userInfo', 'PaymentController@registUserInfo')->name('payRegistUserInfo');
-    Route::post('userInfo/confirm', 'PaymentController@postRegistUserInfo')->name('payPostRegistUserInfo');
+    Route::match(['get', 'post'], '/', 'PaymentController@index')->name('pay');
+    Route::match(['get', 'post'], 'userInfo', 'PaymentController@registUserInfo')->name('pay.userInfo');
+    Route::post('userInfo/confirm', 'PaymentController@postRegistUserInfo')->name('pay.useInfo.confirm');
 });
 
 // 商品詳細画面
 Route::group(['prefix' => 'good'], function() {
     Route::middleware('auth:admin')->group(function (){
-        Route::get('index', 'GoodController@goodIndex')->name('goodIndex');
-        Route::get('add', 'GoodController@goodAdd')->name('goodAdd');
-        Route::post('create', 'GoodController@goodCreate')->name('goodCreate');
-        Route::post('update', 'GoodController@goodUpdate')->name('goodUpdate');
+        Route::get('index', 'GoodController@goodIndex')->name('good.index');
+        Route::get('add', 'GoodController@goodAdd')->name('good.add');
+        Route::post('create', 'GoodController@goodCreate')->name('good.create');
+        Route::post('update', 'GoodController@goodUpdate')->name('good.update');
     });
-    Route::get('{good_id}', 'GoodController@goodShow')->name('goodShow');
+    Route::get('{good_id}', 'GoodController@goodShow')->name('good.good_id');
 });
 
 // 商品検索
 Route::match(['get','post'],'goodsSeatch', 'GoodsSearchController')->name('goodsSearch');
 
 // 商品カテゴリー機能
-Route::get('/category', 'CategoryController@categoryIndex')->name('categoryIndex');
-Route::get('/category/{category_id}', 'CategoryController@categoryShow')->name('categoryShow');
+Route::get('/category', 'CategoryController@categoryIndex')->name('category');
+Route::get('/category/{category_id}', 'CategoryController@categoryShow')->name('category.category_id');
 
 Auth::routes();
 
@@ -57,9 +56,9 @@ Auth::routes();
 Route::group(['middleware' => 'auth:web'], function() {
     Route::get('/home', 'HomeController@index')->name('home');
     // マイページ
-    Route::group(['prefix' => 'mypage'], function() {
+    Route::group(['prefix' => 'myPage'], function() {
         Route::get('/', 'MyPageController@index')->name('myPage');
-        Route::match(['get', 'post'], 'edit', 'MyPageController@edit')->name('myPageAdd');
+        Route::match(['get', 'post'], 'edit', 'MyPageController@edit')->name('myPage.edit');
     });
     // 購入履歴機能
     Route::get('/purchaseHistory','purchaseHistoryController')->name('purchaseHistory');

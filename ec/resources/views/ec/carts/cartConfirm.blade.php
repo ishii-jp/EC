@@ -2,7 +2,7 @@
 @section('content')
 <div class="container">
     カートに追加する数を選択して下さい。
-    <form action="{{ route('cartAdd') }}" method="post">
+    <form action="{{ route('cart.add') }}" method="post">
         @csrf
         <select name="number">
             @php

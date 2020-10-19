@@ -4,7 +4,7 @@
     @if (session('msg')) {{ session('msg') }} @endif
     <table>
         <tr>
-            <td><a href="{{ route('myPageAdd') }}"><button class="btn btn-primary btn-sm">ユーザー情報編集</button></a></td>
+            <td><a href="{{ route('myPage.edit') }}"><button class="btn btn-primary btn-sm">ユーザー情報編集</button></a></td>
             <td><a href="{{ route('purchaseHistory') }}"><button class="btn btn-primary btn-sm">購入履歴</button></a></td>
         </tr>
     <table>
