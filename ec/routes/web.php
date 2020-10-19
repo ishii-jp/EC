@@ -11,7 +11,10 @@
 |
 */
 
+// トップ画面
 Route::match(['get', 'post'], '/', 'PageController@top')->name('top');
+
+// 商品一覧画面
 Route::get('/show', 'PageController@show')->name('show');
 
 // カート機能
@@ -30,7 +33,7 @@ Route::group(['prefix' => 'pay'], function() {
     Route::post('userInfo/confirm', 'PaymentController@postRegistUserInfo')->name('pay.useInfo.confirm');
 });
 
-// 商品詳細画面
+// 商品詳細画面(管理者機能)
 Route::group(['prefix' => 'good'], function() {
     Route::middleware('auth:admin')->group(function (){
         Route::get('index', 'GoodController@goodIndex')->name('good.index');
@@ -41,7 +44,7 @@ Route::group(['prefix' => 'good'], function() {
     Route::get('{good_id}', 'GoodController@goodShow')->name('good.good_id');
 });
 
-// 商品検索
+// 商品検索機能
 Route::match(['get','post'],'goodsSeatch', 'GoodsSearchController')->name('goodsSearch');
 
 // 商品カテゴリー機能
@@ -55,7 +58,7 @@ Auth::routes();
 // User ログイン後
 Route::group(['middleware' => 'auth:web'], function() {
     Route::get('/home', 'HomeController@index')->name('home');
-    // マイページ
+    // マイページ機能
     Route::group(['prefix' => 'myPage'], function() {
         Route::get('/', 'MyPageController@index')->name('myPage');
         Route::match(['get', 'post'], 'edit', 'MyPageController@edit')->name('myPage.edit');
