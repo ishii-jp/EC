@@ -39,7 +39,7 @@ class CategoryController extends Controller
     {
         $ret['categories'] = $this->category->getCategoryAll();
         $ret['goodsRanking'] = $this->goodsRanking;
-        return view('ec.categories.categoryIndex', $ret);
+        return view('ec.categories.category_index', $ret);
     }
 
     /**
@@ -87,6 +87,6 @@ class CategoryController extends Controller
     {
         $ret['goodsRanking'] = $this->goodsRanking;
         $ret['goods'] = Good::with('category')->where('category_id', $request->category_id)->paginate(10);
-        return view('ec.categories.categoryShow', $ret);
+        return view('ec.categories.category_show', $ret);
     }
 }
