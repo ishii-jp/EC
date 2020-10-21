@@ -58,6 +58,15 @@ Route::group(['prefix' => 'category'], function() {
     Route::get('{category_id}', 'CategoryController@categoryShow')->name('category.category_id');
 });
 
+// メーカー機能
+Route::group(['prefix' => 'maker'], function() {
+    // 管理者機能
+    Route::middleware('auth:admin')->group(function (){
+        Route::get('add', 'MakerController@makerAdd')->name('maker.add');
+        Route::post('add/post', 'MakerController@makerAddPost')->name('maker.add.post');
+    });
+});
+
 Auth::routes();
 
 // User 認証不要

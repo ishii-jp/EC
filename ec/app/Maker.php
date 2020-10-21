@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Maker extends Model
 {
+    protected $fillable = [
+        'maker_name'
+    ];
+
     /**
      * goodsテーブルリレーション
      * hasmany
@@ -24,6 +28,6 @@ class Maker extends Model
      */
     public function getMakerAll()
     {
-        return self::all();
+        return $this->all();
     }
 }
