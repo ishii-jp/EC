@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
 class PurchaseHistory extends Model
@@ -45,11 +47,35 @@ class PurchaseHistory extends Model
 
     /**
      * 購入履歴から最も多く購入されている商品ランキングを15件取得して返す
+     * 
      * @return collection ランキング結果のコレクション、purchase_historiesにレコードがなければ空のコレクション
      */
     public function purchaseHistoryRanking($withTables = 'good')
     {
-        return $this::with($withTables)->select(\DB::raw('count(*) as purchase_history_count, good_id'))
+        return $this::with($withTables)->select(DB::raw('count(*) as purchase_history_count, good_id'))
+        ->groupBy('good_id')
+        ->orderBy('purchase_history_count', 'DESC')
+        ->limit(15)
+        ->get();
+    }
+
+    /**
+     * 購入履歴から最も多く購入されている商品ランキングを15件取得して返す
+     * 
+     * categoryIdがnullまたはDBに一つも合致するものがなければ空のコレクションを返します。
+     *
+     * @param string|null $categoryId 取得したいランキングのカテゴリID
+     * @return collection ランキング結果のコレクション
+     */
+    public function purchaseHistoryRankingByCategory(?string $categoryId, $withTables = 'good')
+    {
+        if (is_null($categoryId)) {
+            return new Collection;
+        }
+
+        return $this::with($withTables)
+        ->where('category_id', $categoryId)
+        ->select(DB::raw('count(*) as purchase_history_count, good_id'))
         ->groupBy('good_id')
         ->orderBy('purchase_history_count', 'DESC')
         ->limit(15)
