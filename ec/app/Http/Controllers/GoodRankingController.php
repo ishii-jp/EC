@@ -31,12 +31,12 @@ class GoodRankingController extends Controller
     public function goodRanking()
     {
         // 商品ランキングを返します
-        // if (Cache::has('purchaseHistoryRanking')) {
-        //     return json_encode(Cache::get('purchaseHistoryRanking'));
-        // }
+        if (Cache::has('purchaseHistoryRanking')) {
+            return json_encode(Cache::get('purchaseHistoryRanking'));
+        }
 
         $ranking = $this->purchaseHistory->purchaseHistoryRanking();
-        // Cache::put('purchaseHistoryRanking', $ranking);
+        Cache::put('purchaseHistoryRanking', $ranking);
 
         return json_encode($ranking);
     }
@@ -46,6 +46,7 @@ class GoodRankingController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     * @todo 現在どこからも呼ばれていないアクションです。 テーブルにカラム追加後このapiをコールする予定です
      */
     public function goodRankingByCategory(Request $request)
     {
