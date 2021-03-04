@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\PurchaseHistory;
 
@@ -46,4 +45,6 @@ class PurchaseHistoryTest extends TestCase
 
         $this->assertDatabaseHas('purchase_histories', $this->createArr);
     }
+
+    // TODO DB purchese_historiesにcategory_idカラムを追加したらpurchaseHistoryRankingByCategoryをテストする
 }
