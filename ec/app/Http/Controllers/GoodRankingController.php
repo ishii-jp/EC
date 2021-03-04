@@ -54,7 +54,7 @@ class GoodRankingController extends Controller
             return json_encode(Cache::get('purchaseHistoryRankingByCategory'));
         }
 
-        $ranking = $this->purchaseHistory->purchaseHistoryRankingByCategory();
+        $ranking = $this->purchaseHistory->purchaseHistoryRankingByCategory($request->categoryId);
         Cache::put('purchaseHistoryRankingByCategory', $ranking);
 
         return json_encode($ranking);
