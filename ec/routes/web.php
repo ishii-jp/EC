@@ -80,7 +80,7 @@ Route::group(['middleware' => 'auth:web'], function() {
         Route::match(['get', 'post'], 'edit', 'MyPageController@edit')->name('myPage.edit');
     });
     // 購入履歴機能
-    Route::get('/purchaseHistory','purchaseHistoryController')->name('purchaseHistory');
+    Route::get('/purchaseHistory','PurchaseHistoryController')->name('purchaseHistory');
 });
 
 // Admin 認証不要
