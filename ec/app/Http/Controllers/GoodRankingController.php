@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use App\purchaseHistory;
+use App\PurchaseHistory;
 
 /**
  * GoodRankingController
@@ -16,9 +16,9 @@ class GoodRankingController extends Controller
     /**
      * __construct
      *
-     * @param purchaseHistory $purchaseHistory
+     * @param PurchaseHistory $purchaseHistory
      */
-    public function __construct(purchaseHistory $purchaseHistory)
+    public function __construct(PurchaseHistory $purchaseHistory)
     {
         $this->purchaseHistory = $purchaseHistory;
     }
