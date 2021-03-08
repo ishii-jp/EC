@@ -27,7 +27,8 @@ class CategoryController extends Controller
         $this->category = $category;
 
         // 人気商品ランキング取得
-        $this->goodsRanking = json_decode(file_get_contents('http://ec.local/api/goodsRanking'), true);
+        $host = request()->header('host');
+        $this->goodsRanking = json_decode(file_get_contents("http://{$host}/api/goodsRanking"), true);
     }
 
     /**
