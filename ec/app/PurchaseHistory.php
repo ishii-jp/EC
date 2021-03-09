@@ -53,9 +53,9 @@ class PurchaseHistory extends Model
      * @param string $withTables withするテーブル名　デフォルトをgoodにしてます
      * @return collection ランキング結果のコレクション、purchase_historiesにレコードがなければ空のコレクション
      */
-    public function purchaseHistoryRanking($withTables = 'good')
+    public static function purchaseHistoryRanking($withTables = 'good')
     {
-        return $this::with($withTables)->select(DB::raw('count(*) as purchase_history_count, good_id'))
+        return self::with($withTables)->select(DB::raw('count(*) as purchase_history_count, good_id'))
         ->groupBy('good_id')
         ->orderBy('purchase_history_count', 'DESC')
         ->limit(15)

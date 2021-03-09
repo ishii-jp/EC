@@ -11,18 +11,6 @@ use App\PurchaseHistory;
  */
 class GoodRankingController extends Controller
 {
-    private $purchaseHistory;
-
-    /**
-     * __construct
-     *
-     * @param PurchaseHistory $purchaseHistory
-     */
-    public function __construct(PurchaseHistory $purchaseHistory)
-    {
-        $this->purchaseHistory = $purchaseHistory;
-    }
-
     /**
      * 商品ランキング
      *
@@ -35,7 +23,7 @@ class GoodRankingController extends Controller
             return json_encode(Cache::get('purchaseHistoryRanking'));
         }
 
-        $ranking = $this->purchaseHistory->purchaseHistoryRanking();
+        $ranking = PurchaseHistory::purchaseHistoryRanking();
         Cache::put('purchaseHistoryRanking', $ranking);
 
         return json_encode($ranking);
@@ -55,7 +43,7 @@ class GoodRankingController extends Controller
             return json_encode(Cache::get('purchaseHistoryRankingByCategory'));
         }
 
-        $ranking = $this->purchaseHistory->purchaseHistoryRankingByCategory($request->categoryId);
+        $ranking = PurchaseHistory::purchaseHistoryRankingByCategory($request->categoryId);
         Cache::put('purchaseHistoryRankingByCategory', $ranking);
 
         return json_encode($ranking);
