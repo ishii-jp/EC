@@ -49,7 +49,8 @@ class PurchaseHistory extends Model
 
     /**
      * 購入履歴から最も多く購入されている商品ランキングを15件取得して返す
-     * 
+     *
+     * @param string $withTables withするテーブル名　デフォルトをgoodにしてます
      * @return collection ランキング結果のコレクション、purchase_historiesにレコードがなければ空のコレクション
      */
     public function purchaseHistoryRanking($withTables = 'good')
