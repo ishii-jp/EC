@@ -77,14 +77,9 @@ class PurchaseHistory extends Model
             return new Collection;
         }
 
-        return self::with(
-            [
-                $table => function ($query) use ($categoryId){
-                    $query->where('category_id', $categoryId);
-                }
-
-            ]
-        )
+        $goodIds = Good::Where('category_id', $categoryId)->get('id'); // 後続でwhereInの条件にするgood_idを取得します
+        return self::with($table)
+        ->whereIn('good_id', $goodIds->toArray())
         ->select(DB::raw('count(*) as purchase_history_count, good_id'))
         ->groupBy('good_id')
         ->orderBy('purchase_history_count', 'DESC')

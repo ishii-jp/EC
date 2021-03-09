@@ -18,13 +18,15 @@ class GoodRankingController extends Controller
      */
     public function goodRanking()
     {
+        $cacheKey = 'purchaseHistoryRanking';
+
         // 商品ランキングを返します
-        if (Cache::has('purchaseHistoryRanking')) {
-            return json_encode(Cache::get('purchaseHistoryRanking'));
+        if (Cache::has($cacheKey)) {
+            return json_encode(Cache::get($cacheKey));
         }
 
         $ranking = PurchaseHistory::purchaseHistoryRanking();
-        Cache::put('purchaseHistoryRanking', $ranking);
+        Cache::put($cacheKey, $ranking);
 
         return json_encode($ranking);
     }
@@ -34,17 +36,19 @@ class GoodRankingController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-     * @todo 現在どこからも呼ばれていないアクションです。 テーブルにカラム追加後このapiをコールする予定です
      */
     public function goodRankingByCategory(Request $request)
     {
+        $categoryId = $request->route('categoryId');
+        $cacheKey = "purchaseHistoryRankingByCategory_{$categoryId}";
+
         // カテゴリ別商品ランキングを返します
-        if (Cache::has('purchaseHistoryRankingByCategory')) {
-            return json_encode(Cache::get('purchaseHistoryRankingByCategory'));
+        if (Cache::has($cacheKey)) {
+            return json_encode(Cache::get($cacheKey));
         }
 
-        $ranking = PurchaseHistory::purchaseHistoryRankingByCategory($request->categoryId);
-        Cache::put('purchaseHistoryRankingByCategory', $ranking);
+        $ranking = PurchaseHistory::purchaseHistoryRankingByCategory($categoryId);
+        Cache::put($cacheKey, $ranking);
 
         return json_encode($ranking);
     }

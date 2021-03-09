@@ -86,6 +86,7 @@ class CategoryController extends Controller
     public function categoryShow(Request $request)
     {
         $ret['goodsRanking'] = $this->goodsRanking;
+        $ret['goodsRankingByCategory'] = json_decode(file_get_contents(route('goodRankingByCategory', ['categoryId' => $request->route('category_id')])), true);;
         $ret['goods'] = Good::with('category')->where('category_id', $request->category_id)->paginate(10);
         return view('ec.categories.category_show', $ret);
     }
