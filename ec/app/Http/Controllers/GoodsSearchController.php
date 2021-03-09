@@ -27,7 +27,7 @@ class GoodsSearchController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $ret['goodsRanking'] = json_decode(file_get_contents("http://{$request->header('host')}/api/goodsRanking"), true); // 人気商品ランキング取得
+        $ret['goodsRanking'] = json_decode(file_get_contents(route('goodsRanking')), true); // 人気商品ランキング取得
 
         $ret['goods'] = $this->goodsSearchService->goodsSearch($request->goodsSearch);
 

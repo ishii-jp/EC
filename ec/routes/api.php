@@ -17,4 +17,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('goodsRanking', 'GoodRankingController@goodRanking'); // 商品ランキングapi
+// 商品ランキングapi
+Route::get('goodsRanking', 'GoodRankingController@goodRanking')->name('goodsRanking');
+
+// カテゴリ別商品ランキングapi
+Route::get('goodsRanking/{categoryId}', 'GoodRankingController@goodRankingByCategory')->name('goodRankingByCategory');

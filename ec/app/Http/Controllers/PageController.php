@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Good;
-use Illuminate\Http\Request;
+
 
 class PageController extends Controller
 {
@@ -33,14 +33,12 @@ class PageController extends Controller
     /**
      * 商品一覧画面
      *
-     * @param Request $request
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function show(Request $request)
+    public function show()
     {
         $ret['goods'] = $this->good->getGoodAll(10); // 商品一覧を取得
-        $ret['goodsRanking'] = json_decode(file_get_contents("http://{$request->header('host')}/api/goodsRanking"), true); // 人気商品ランキング取得
-
+        $ret['goodsRanking'] = json_decode(file_get_contents(route('goodsRanking')), true); // 人気商品ランキング取得
         return view('ec.show', $ret);
     }
 }
