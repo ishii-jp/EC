@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\PurchaseHistory;
+use Illuminate\Support\Collection;
 
 class PurchaseHistoryTest extends TestCase
 {
@@ -47,4 +48,13 @@ class PurchaseHistoryTest extends TestCase
     }
 
     // TODO DB purchese_historiesにcategory_idカラムを追加したらpurchaseHistoryRankingByCategoryをテストする
+
+    /**
+     * @test
+     */
+    public function purchaseHistoryRankingByCategory_categoryIdがnullの場合は空のコレクションを返すこと()
+    {
+        $categoryId = null;
+        $this->assertEquals(new Collection, PurchaseHistory::purchaseHistoryRankingByCategory($categoryId));
+    }
 }
