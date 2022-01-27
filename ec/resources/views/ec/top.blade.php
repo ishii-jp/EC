@@ -2,7 +2,7 @@
 @section('content')
 <div class="container">
     <div class="alert alert-info" role="alert">
-        これは学習用のサイトです。 本物のECサイトではありません。<br> This is a study site. No EC site.
+        これは学習用のサイトです。 本物のECサイトではありません。<br> This is a learning site. Not an EC site.
     </div>
 
     <p>トップ画面</p>
